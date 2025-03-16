@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodtek_app/view/screen/spalsh_screen.dart';
+import 'package:foodtek_app/view/screens/spalsh_screen.dart';
 void main() {
   runApp(const MyApp());
 }
