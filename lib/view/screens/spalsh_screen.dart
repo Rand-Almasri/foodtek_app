@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:foodtek_app/core/constants/text_styles.dart';
+
+import 'onboarding/on_boarding_screen1.dart';
+
+
 class SpalshScreen extends StatefulWidget {
   const SpalshScreen({super.key});
 
@@ -13,11 +17,11 @@ class _SpalshScreenState extends State<SpalshScreen> {
   void initState() {
     super.initState();
     // Navigate to Onboarding after 3 seconds
-    Future.delayed(Duration(seconds: 3), () {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => OnboardingScreen()),
-      // );
+    Future.delayed(Duration(seconds: 10), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OnboardingScreen1(onContinue: () {  }, onSkip: () {  },)),
+      );
     });
   }
 
