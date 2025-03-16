@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/constant_colors.dart';
+import 'package:foodtek_app/core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
 
 class OnboardingScreen1 extends StatelessWidget {
@@ -25,16 +25,16 @@ class OnboardingScreen1 extends StatelessWidget {
                   children: [
                     // Main illustration
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                       child: Image.asset(
-                        'assets/images/onboarding_welcome.png',
+                        'assets/images/onboarding_welcome.jpeg',
                         fit: BoxFit.contain,
                       ),
                     ),
 
                     // Welcome text
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, bottom: 16),
+                      padding: const EdgeInsets.only(top: 10, bottom: 16),
                       child: Text(
                         'Welcome To Sahlah',
                         style: AppTextStyles.onboardingHeading,
@@ -72,6 +72,7 @@ class OnboardingScreen1 extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
                         ),
+                        elevation: 0,
                       ),
                       child: Text(
                         'Continue',
@@ -108,14 +109,16 @@ class OnboardingScreen1 extends StatelessWidget {
                       IconButton(
                         onPressed: onContinue,
                         icon: Container(
+                          padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
                             color: Colors.transparent,
                             border: Border.all(color: AppColors.primaryGreen),
                             shape: BoxShape.circle,
                           ),
-                          child: const Icon(
+                          child: Icon(
                             Icons.arrow_forward,
                             color: AppColors.primaryGreen,
+                            size: 20,
                           ),
                         ),
                       ),
