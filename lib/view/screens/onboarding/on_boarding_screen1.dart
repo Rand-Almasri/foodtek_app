@@ -29,6 +29,7 @@ class OnboardingScreen1 extends StatelessWidget {
                       child: Image.asset(
                         'assets/images/onboarding_welcome.jpeg',
                         fit: BoxFit.contain,
+                        height: MediaQuery.of(context).size.height * 0.35,
                       ),
                     ),
 
@@ -50,6 +51,9 @@ class OnboardingScreen1 extends StatelessWidget {
                         style: AppTextStyles.onboardingtext,
                       ),
                     ),
+
+                    // Extra space
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -96,7 +100,7 @@ class OnboardingScreen1 extends StatelessWidget {
                         ),
                       ),
 
-                      // Indicator dots
+                      // Indicator dots - now circular
                       Row(
                         children: [
                           _buildDot(isActive: true),
@@ -134,13 +138,14 @@ class OnboardingScreen1 extends StatelessWidget {
   }
 
   Widget _buildDot({required bool isActive}) {
+    // Updated to use circular dots
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
-      height: 8,
-      width: isActive ? 24 : 8,
+      height: 10,
+      width: 10,
       decoration: BoxDecoration(
         color: isActive ? AppColors.primaryGreen : Colors.grey.shade300,
-        borderRadius: BorderRadius.circular(4),
+        shape: BoxShape.circle,
       ),
     );
   }

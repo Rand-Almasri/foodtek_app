@@ -116,6 +116,12 @@
       "languageVersion": "3.7"
     },
     {
+      "name": "smooth_page_indicator",
+      "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.2.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "source_span",
       "rootUri": "file:///C:/Users/user/AppData/Local/Pub/Cache/hosted/pub.dev/source_span-1.10.1",
       "packageUri": "lib/",
@@ -170,7 +176,7 @@
       "languageVersion": "3.7"
     }
   ],
-  "generated": "2025-03-16T01:37:29.512208Z",
+  "generated": "2025-03-16T21:39:01.204828Z",
   "generator": "pub",
   "generatorVersion": "3.7.2",
   "flutterRoot": "file:///C:/flutter",

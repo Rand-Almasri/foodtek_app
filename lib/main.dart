@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodtek_app/view/screens/spalsh_screen.dart';
+import 'core/routes/app_routes.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -11,12 +11,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'foodtek',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-       home:SpalshScreen(),
+      initialRoute: AppRoutes.splash,  // Start from Splash Screen
+      onGenerateRoute: AppRoutes.generateRoute,
     );
   }
 }
