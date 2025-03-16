@@ -1,29 +1,86 @@
-# Miscellaneous
+# Flutter/Dart specific
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub/
+.pub-cache/
+build/
+coverage/
+lib/generated_plugin_registrant.dart
+.idea/
+.vscode/
+*.iml
 *.class
+.flutter-plugins-dependencies
+*.lock
+pubspec.lock
+.last_build_id
+pubspec.lock
+pubspec.yaml.backup
+
+# Android specific
+/android/app/debug
+/android/app/profile
+/android/app/release
+/android/gradle/
+/android/gradlew
+/android/gradlew.bat
+/android/local.properties
+/android/.gradle
+/android/captures/
+/android/app/release
+/android/.idea/
+/android/app/debug/
+/android/app/profile/
+/android/.settings
+/android/app/src/debug
+
+# iOS specific
+/ios/.symlinks/
+/ios/Flutter/ephemeral/
+/ios/Flutter/App.framework
+/ios/Flutter/Flutter.framework
+/ios/Flutter/Generated.xcconfig
+/ios/Flutter/app.flx
+/ios/Flutter/app.zip
+/ios/Flutter/flutter_assets/
+/ios/ServiceDefinitions.json
+/ios/Runner/GeneratedPluginRegistrant.*
+/ios/Pods/
+/ios/Flutter/Flutter.podspec
+/ios/.idea/
+
+# Symbols
+app.*.symbols
+
+# macOS specific
+macos/Flutter/ephemeral/
+macos/Flutter/GeneratedPluginRegistrant.*
+macos/.idea/
+macos/Pods
+
+# Windows specific
+windows/Flutter/ephemeral/
+windows/Flutter/Generated.props
+windows/Flutter/flutter_export_environment.sh
+windows/Flutter/GeneratedPluginRegistrant.h
+windows/Flutter/GeneratedPluginRegistrant.cpp
+windows/.idea/
+
+# General
 *.log
-*.pyc
 *.swp
 .DS_Store
 .atom/
-.build/
-
-# Gradle files
-.gradle/
-build/
-
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.apk
-output.json
-
-
-
-
+.buildlog/
+.history
+.project
+.settings/
+*.orig
+*~
+*.tmp
+*.bak
+temp/
+.env
+.env.*

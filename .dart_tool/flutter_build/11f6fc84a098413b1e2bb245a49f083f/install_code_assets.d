@@ -1,1 +1,0 @@
- C:\\Users\\user\\AndroidStudioProjects\\foodtek_app\\.dart_tool\\flutter_build\\11f6fc84a098413b1e2bb245a49f083f\\native_assets.json: 
