@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:foodtek_app/core/text_styles.dart';
+import 'package:foodtek_app/core/constants/text_styles.dart';
 class SpalshScreen extends StatefulWidget {
   const SpalshScreen({super.key});
 

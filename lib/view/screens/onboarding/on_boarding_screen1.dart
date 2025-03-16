@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/colors.dart';
+import '../../../core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
 
 class OnboardingScreen1 extends StatelessWidget {
@@ -67,7 +67,7 @@ class OnboardingScreen1 extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: onContinue,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
+                        backgroundColor: AppColors.primaryGreen,
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(28),
@@ -110,12 +110,12 @@ class OnboardingScreen1 extends StatelessWidget {
                         icon: Container(
                           decoration: BoxDecoration(
                             color: Colors.transparent,
-                            border: Border.all(color: AppColors.primary),
+                            border: Border.all(color: AppColors.primaryGreen),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
                             Icons.arrow_forward,
-                            color: AppColors.primary,
+                            color: AppColors.primaryGreen,
                           ),
                         ),
                       ),
@@ -136,7 +136,7 @@ class OnboardingScreen1 extends StatelessWidget {
       height: 8,
       width: isActive ? 24 : 8,
       decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : Colors.grey.shade300,
+        color: isActive ? AppColors.primaryGreen : Colors.grey.shade300,
         borderRadius: BorderRadius.circular(4),
       ),
     );
