@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/constant_colors.dart';
 
-class LocationPermissionScreen extends StatelessWidget {
-  const LocationPermissionScreen({Key? key}) : super(key: key);
+class OnBoardingScreen4 extends StatelessWidget {
+  const OnBoardingScreen4({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

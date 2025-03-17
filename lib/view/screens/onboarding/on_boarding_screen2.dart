@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../core/routes/app_routes.dart';
-import 'location_permission_screen.dart';
+import 'on_boarding_screen4.dart';
 import 'onboardingscreens.dart';
 
 class OnBoardingScreen2 extends StatefulWidget {
@@ -22,7 +22,7 @@ class _OnBoardingScreen2State extends State<OnBoardingScreen2> {
         // Navigate to next onboarding screen
       },
       onSkip: () {
-        Navigator.pushReplacementNamed(context, AppRoutes.locationPermission);
+        Navigator.pushReplacementNamed(context, AppRoutes.onboarding4);
       },
       currentIndex: 1,
       totalScreens: 3,
