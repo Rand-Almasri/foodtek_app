@@ -18,7 +18,7 @@ class OnBoardingScreen4 extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/backgroundonboarding4.png'),
+            image: AssetImage('assets/images/backgroundonboardingscreenss.JPG'),
             fit: BoxFit.cover,
           ),
         ),
