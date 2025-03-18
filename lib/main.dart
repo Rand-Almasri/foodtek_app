@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodtek_app/view/screens/splash_screen.dart';
-
+import 'core/routes/app_routes.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -8,23 +7,20 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Foodtek',
+      title: 'foodtek',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-        useMaterial3: true,
+
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const SplashScreen(),
+      initialRoute: AppRoutes.splash,  // Start from Splash Screen
+      onGenerateRoute: AppRoutes.generateRoute,
     );
   }
 }
-
-
-
-
-
 
 

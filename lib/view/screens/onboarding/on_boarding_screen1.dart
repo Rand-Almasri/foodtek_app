@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
+import '../../../core/routes/app_routes.dart';
 
 class OnboardingScreen1 extends StatelessWidget {
-  final VoidCallback onContinue;
-  final VoidCallback onSkip;
+  const OnboardingScreen1({Key? key}) : super(key: key);
 
-  const OnboardingScreen1({
-    Key? key,
-    required this.onContinue,
-    required this.onSkip,
-  }) : super(key: key);
+  void _handleContinue(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.onboarding2);
+  }
+
+  void _handleSkip(BuildContext context) {
+    Navigator.pushNamed(context, AppRoutes.onboarding4);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,6 @@ class OnboardingScreen1 extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      // Main illustration
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                         child: Image.asset(
@@ -38,8 +39,6 @@ class OnboardingScreen1 extends StatelessWidget {
                           height: MediaQuery.of(context).size.height * 0.35,
                         ),
                       ),
-
-                      // Welcome text
                       Padding(
                         padding: const EdgeInsets.only(top: 10, bottom: 16),
                         child: Text(
@@ -47,8 +46,6 @@ class OnboardingScreen1 extends StatelessWidget {
                           style: AppTextStyles.onboardingHeading,
                         ),
                       ),
-
-                      // Subtitle
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 32),
                         child: Text(
@@ -57,25 +54,20 @@ class OnboardingScreen1 extends StatelessWidget {
                           style: AppTextStyles.onboardingtext,
                         ),
                       ),
-
-                      // Extra space
                       const SizedBox(height: 20),
                     ],
                   ),
                 ),
               ),
-
-              // Bottom navigation section
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    // Continue button
                     SizedBox(
                       width: double.infinity,
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: onContinue,
+                        onPressed: () => _handleContinue(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primaryGreen,
                           foregroundColor: Colors.white,
@@ -90,23 +82,17 @@ class OnboardingScreen1 extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 40),
-
-                    // Skip and dots row
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Skip text
                         TextButton(
-                          onPressed: onSkip,
+                          onPressed: () => _handleSkip(context),
                           child: Text(
                             'Skip',
                             style: AppTextStyles.onboardingskip,
                           ),
                         ),
-
-                        // Indicator dots - now circular
                         Row(
                           children: [
                             _buildDot(isActive: true),
@@ -114,14 +100,11 @@ class OnboardingScreen1 extends StatelessWidget {
                             _buildDot(isActive: false),
                           ],
                         ),
-
-                        // Next arrow button
                         IconButton(
-                          onPressed: onContinue,
+                          onPressed: () => _handleContinue(context),
                           icon: Container(
                             padding: const EdgeInsets.all(2),
                             decoration: BoxDecoration(
-                              color: Colors.transparent,
                               border: Border.all(color: AppColors.primaryGreen),
                               shape: BoxShape.circle,
                             ),
@@ -145,7 +128,6 @@ class OnboardingScreen1 extends StatelessWidget {
   }
 
   Widget _buildDot({required bool isActive}) {
-    // Updated to use circular dots
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 4),
       height: 10,

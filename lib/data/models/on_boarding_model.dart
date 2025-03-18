@@ -23,9 +23,9 @@ final List<OnboardingModel> onboardingData = [
     imagePath: 'assets/images/onboarding_delivery.jpeg',
   ),
 
- /* OnboardingModel(
+  OnboardingModel(
     title: 'Turn On Your Location',
     subtitle: 'To Make Sure We Can Deliver To Your Address',
     imagePath: 'assets/images/onboarding_delivery.jpeg',
-  ),*/
+  ),
 ];
