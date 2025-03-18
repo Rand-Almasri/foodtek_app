@@ -20,7 +20,7 @@ class OnboardingScreen1 extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/backgroundonboardingscreen.jpg'),
+            image: AssetImage('assets/images/backgroundonboardingscreenss.JPG'),
             fit: BoxFit.cover,
           ),
         ),
@@ -31,6 +31,7 @@ class OnboardingScreen1 extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(height: 90,),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                         child: Image.asset(
@@ -47,14 +48,14 @@ class OnboardingScreen1 extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.symmetric(horizontal: 50),
                         child: Text(
                           'Enjoy A Fast And Smooth Food Delivery At Your Doorstep',
                           textAlign: TextAlign.center,
                           style: AppTextStyles.onboardingtext,
                         ),
                       ),
-                      const SizedBox(height: 20),
+
                     ],
                   ),
                 ),

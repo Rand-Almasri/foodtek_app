@@ -21,7 +21,7 @@ class OnBoardingScreen2 extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/backgroundonboardingscreen.jpg'),
+            image: AssetImage('assets/images/backgroundonboardingscreenss.JPG'),
             fit: BoxFit.cover,
           ),
         ),
@@ -32,8 +32,9 @@ class OnBoardingScreen2 extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(height: 160,),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, ),
                         child: Image.asset(
                           'assets/images/onboarding_delivery.jpeg',
                           fit: BoxFit.contain,
@@ -41,18 +42,20 @@ class OnBoardingScreen2 extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 16),
+                        padding: EdgeInsets.only(top: 1),
                         child: Text(
                           'Get Delivery On Time',
                           style: AppTextStyles.onboardingHeading,
                         ),
                       ),
+
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.symmetric(horizontal: 60),
                         child: Text(
                           'Order Your Favorite Food Within The Palm Of Your Hand And The Zone Of Your Comfort',
                           textAlign: TextAlign.center,
                           style: AppTextStyles.onboardingtext,
+
                         ),
                       ),
                       const SizedBox(height: 20),

@@ -3,8 +3,8 @@ import 'constant_colors.dart';
 class AppTextStyles {
   static const TextStyle onboardingHeading = TextStyle(
     fontFamily: 'Poppins',
-    fontWeight: FontWeight.w500,
-    fontSize: 32,
+    fontWeight: FontWeight.w600,
+    fontSize: 30,
     height: 1.0, // 100% line-height
     letterSpacing: 0.0,
     color: AppColors.secondary, // Directly setting the text color here
@@ -12,8 +12,8 @@ class AppTextStyles {
   static const TextStyle onboardingtext = TextStyle(
     fontFamily: 'Poppins',
     fontWeight: FontWeight.w400,
-    fontSize: 18,
-    height: 1.0, // 100% line-height
+    fontSize: 16,
+    height: 1.4, // 100% line-height
     letterSpacing: -0.01, // -1% letter-spacing
     color: AppColors.secondary, // Directly setting the text color here
   );

@@ -21,7 +21,7 @@ class OnboardingScreen3 extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/backgroundonboardingscreen.jpg'),
+            image: AssetImage('assets/images/backgroundonboardingscreens.PNG'),
             fit: BoxFit.cover,
           ),
         ),
@@ -32,8 +32,10 @@ class OnboardingScreen3 extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      SizedBox(height: 160,),
+
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, ),
                         child: Image.asset(
                           'assets/images/onboarding_delivery.jpeg',
                           fit: BoxFit.contain,
@@ -41,14 +43,15 @@ class OnboardingScreen3 extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 16),
+                        padding: const EdgeInsets.only(top: 1),
                         child: Text(
                           'Choose Your Food',
                           style: AppTextStyles.onboardingHeading,
                         ),
                       ),
+                      SizedBox(height: 16,),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.symmetric(horizontal: 60),
                         child: Text(
                           'Order Your Favorite Food Within The Palm Of Your Hand And The Zone Of Your Comfort',
                           textAlign: TextAlign.center,
