@@ -47,7 +47,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return SizedBox(
       height: 40
     ,child:TextFormField(
-      style: TextStyle(fontSize: 12, color: Colors.grey),
+      style: TextStyle(fontSize: 14, color: Colors.black),
       controller: widget.controller,
       obscureText: _obscureText,
       keyboardType: widget.keyboardType,
@@ -58,6 +58,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onChanged: widget.onChanged,
       decoration: InputDecoration(
         hintText: widget.hintText,
+        hintStyle: TextStyle(fontSize: 12,color: Colors.grey),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),

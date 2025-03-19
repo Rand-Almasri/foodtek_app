@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
 import '../../../core/widgets/CustomButton.dart';
 import '../../../core/widgets/CustomTextField.dart';
@@ -8,12 +9,39 @@ class ResetPasswordScreen extends StatelessWidget {
 
   final TextEditingController emailController = TextEditingController();
 
+  Future<void> _checkEmail(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? storedEmail = prefs.getString('email');
+
+    if (storedEmail != null && storedEmail == emailController.text.trim()) {
+      Navigator.pushReplacementNamed(context, '/newpasswordscreen'); // Navigate to Update Password screen
+    } else {
+      _showAlert(context, "Email not found", "The provided email is not registered.");
+    }
+  }
+
+  void _showAlert(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/splash_bg.jpg'),
             fit: BoxFit.cover,
@@ -38,7 +66,7 @@ class ResetPasswordScreen extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 140),
+                      const SizedBox(height: 110),
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -46,85 +74,60 @@ class ResetPasswordScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start, // Keep everything aligned closely
-                              mainAxisSize: MainAxisSize.min, // Prevent extra spacing
-                              children: [
-                                GestureDetector(
-                                  onTap: () => Navigator.pushReplacementNamed(context, '/login'),
-                                  child: Icon(Icons.arrow_back, size: 16), // Reduced size for better alignment
-                                ),
-                                SizedBox(width: 4), // Decreased space between components
-                                Text(
-                                  "Back to",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                SizedBox(width: 4),
-                                TextButton(
-                                  onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
-                                  style: ButtonStyle(
-                                    padding: MaterialStateProperty.all(EdgeInsets.zero), // Remove extra padding
-                                    minimumSize: MaterialStateProperty.all(Size(0, 0)), // Avoid extra height
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Reduce touch area
-                                    visualDensity: VisualDensity.compact, // Minimize space
-                                  ),
-
-                                  child: Text(
-                                    "Login",
-                                    style: TextStyle(
-                                      fontSize: 14, // Match text sizes
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.primaryGreen,
+                            GestureDetector(
+                              onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.arrow_back, size: 16),
+                                  const SizedBox(width: 4),
+                                  const Text("Back to", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                                  TextButton(
+                                    onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all(EdgeInsets.zero),
+                                      minimumSize: MaterialStateProperty.all(Size(0, 0)),
+                                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      visualDensity: VisualDensity.compact,
+                                    ),
+                                    child: Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: AppColors.primaryGreen,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 4),
-                                Text(
-                                  "page",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                                  const SizedBox(width: 4),
+                                  const Text("page", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                                ],
+                              ),
                             ),
-
-
                             const SizedBox(height: 20),
-                            Align(
+                            const Align(
                               alignment: Alignment.center,
                               child: Text(
-                                "Rest Password",
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                                "Reset Password",
+                                style: TextStyle(fontSize: 32, fontWeight: FontWeight.w700),
                               ),
                             ),
                             const SizedBox(height: 5),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 58),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 58),
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "Enter your E-mail or phone and we’ll send you a link to get back into your account",
+                                  "Enter your E-mail and we’ll check if it exists to reset your password",
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                  ),
+                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                                 ),
                               ),
                             ),
                             const SizedBox(height: 15),
-                            Text("Email", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                            const Text("Email", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                             const SizedBox(height: 5),
                             CustomTextField(
                               controller: emailController,
@@ -133,9 +136,7 @@ class ResetPasswordScreen extends StatelessWidget {
                             const SizedBox(height: 30),
                             CustomButton(
                               text: "Send",
-                              onPressed: () {
-                                // Handle password reset logic
-                              },
+                              onPressed: () => _checkEmail(context),
                             ),
                           ],
                         ),
