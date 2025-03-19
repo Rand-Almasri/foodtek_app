@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupController {
   final TextEditingController nameController = TextEditingController();
@@ -95,11 +98,50 @@ class SignupController {
   }
 
   // Placeholder method for registration functionality
-  void register(BuildContext context) {
-    // For now, just show a success message
+  // void register(BuildContext context) {
+  //   // For now, just show a success message
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     const SnackBar(content: Text('Registration successful!')),
+  //   );
+  //   // In a real app, you would call authentication service here
+  // }
+  Future<void> storeUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    Map<String, String> userData = {
+      'name': nameController.text.trim(),
+      'email': emailController.text.trim(),
+      'birthDate': birthDateController.text.trim(),
+      'phone': phoneController.text.trim(),
+      'password': passwordController.text.trim(),
+    };
+
+    String userJson = jsonEncode(userData);
+    await prefs.setString('user_${userData['email']}', userJson); // Store by email
+  }
+
+  void register(BuildContext context) async {
+    await storeUserData();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Registration successful!')),
     );
-    // In a real app, you would call authentication service here
+  }
+  Future<Map<String, String>?> getUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? name = prefs.getString('name');
+    String? email = prefs.getString('email');
+    String? birthDate = prefs.getString('birthDate');
+    String? phone = prefs.getString('phone');
+    String? password = prefs.getString('password');
+
+    if (name != null && email != null && birthDate != null && phone != null && password != null) {
+      return {
+        'name': name,
+        'email': email,
+        'birthDate': birthDate,
+        'phone': phone,
+        'password': password,
+      };
+    }
+    return null;
   }
 }

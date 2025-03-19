@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart';
+
+import 'package:flutter/material.dart';
+
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color? color;
   final Color? textColor;
   final IconData? icon;
+  final Color? iconColor;
+  final Widget? imageIcon;
+  final double? iconSize;
 
   const CustomButton({
     super.key,
@@ -13,6 +21,9 @@ class CustomButton extends StatelessWidget {
     this.color,
     this.textColor,
     this.icon,
+    this.iconColor,
+    this.imageIcon,
+    this.iconSize,
   });
 
   @override
@@ -28,11 +39,23 @@ class CustomButton extends StatelessWidget {
           ),
         ),
         onPressed: onPressed,
-        icon: icon != null ? Icon(icon, color: textColor ?? Colors.white) : const SizedBox.shrink(),
+        icon: imageIcon ??
+            (icon != null
+                ? Icon(
+              icon,
+              color: iconColor ?? textColor ?? Colors.white,
+              size: iconSize ?? 24, // Set default size to 24
+            )
+                : const SizedBox.shrink()),
         label: Text(
           text,
           style: TextStyle(color: textColor ?? Colors.white, fontSize: 16),
         ),
       ),
     );
-  }}
+  }
+}
+
+
+
+
