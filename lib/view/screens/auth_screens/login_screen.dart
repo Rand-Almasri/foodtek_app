@@ -90,13 +90,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         "Foodtek",
                         style: TextStyle(
-                          fontSize: 80,
+                          fontSize: 55,
                           fontWeight: FontWeight.w400,
                           fontFamily: 'Protest Riot',
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 15),
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               "Login",
                               style: TextStyle(
                                 fontFamily: 'Inter',
-                                fontSize: 32,
+                                fontSize: 30,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -136,15 +136,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 5),
-                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text("Email")]),
+                            const SizedBox(height: 3),
+                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text("Email",
+                                style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ))]),
                             const SizedBox(height: 5),
                             CustomTextField(
                               controller: emailController,
                               hintText: "Email@gmail.com",
                             ),
                             const SizedBox(height: 10),
-                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text("Password")]),
+                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text("Password",
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                ))]),
                             const SizedBox(height: 5),
                             CustomTextField(
                               controller: passwordController,
@@ -190,7 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ))),
                               ],
                             ),
-                            const SizedBox(height: 15),
+                            const SizedBox(height: 10),
                             CustomButton(
                               text: "Log In",
                               onPressed: () {
@@ -203,9 +213,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               },
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 15),
                             const Text("Or"),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 15),
                             CustomButton(
                               text: "Continue with Google",
                               onPressed: () {},
@@ -236,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               icon: Icons.apple,
                               iconSize: 24,
                             ),
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 10),
                           ],
                         ),
                       ),

@@ -44,7 +44,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return SizedBox(
+      height: 40
+    ,child:TextFormField(
+      style: TextStyle(fontSize: 12, color: Colors.grey),
       controller: widget.controller,
       obscureText: _obscureText,
       keyboardType: widget.keyboardType,
@@ -70,6 +73,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
         )
             : widget.suffixIcon,
       ),
-    );
+    ) ,);
   }
 }
