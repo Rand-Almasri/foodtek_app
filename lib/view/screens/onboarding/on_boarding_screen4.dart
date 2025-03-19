@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
+import '../../../core/routes/app_routes.dart';
 
 class OnBoardingScreen4 extends StatelessWidget {
   const OnBoardingScreen4({Key? key}) : super(key: key);
 
   void _handleTurnOnLocation(BuildContext context) {
     // Handle location permission logic here
+    Navigator.pushNamed(context, AppRoutes.login);
   }
 
   void _handleCancel(BuildContext context) {
-    Navigator.pop(context);
+    Navigator.pushNamed(context, AppRoutes.login);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +34,7 @@ class OnBoardingScreen4 extends StatelessWidget {
                     children: [
                       const SizedBox(height: 195),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40,),
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Image.asset(
                           'assets/images/onboarding_delivery.jpeg',
                           fit: BoxFit.contain,
@@ -108,15 +111,10 @@ class OnBoardingScreen4 extends StatelessWidget {
                   ),
                 ),
               ),
-
-
             ],
-
-
           ),
         ),
       ),
     );
   }
-
 }

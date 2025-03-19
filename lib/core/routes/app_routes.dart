@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:foodtek_app/view/screens/splash_screen.dart';
+import '../../view/screens/auth_screens/signup_screen.dart';
 import '../../view/screens/onboarding/on_boarding_screen1.dart';
 import '../../view/screens/onboarding/on_boarding_screen2.dart';
 import '../../view/screens/onboarding/on_boarding_screen3.dart';
@@ -12,6 +12,9 @@ class AppRoutes {
   static const String onboarding2 = '/onboarding2';
   static const String onboarding3 = '/onboarding3';
   static const String onboarding4 = '/onboarding4';
+  static const String login = '/login';
+  static const String signup = '/signup';
+
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
@@ -24,6 +27,11 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
       case onboarding4:
         return MaterialPageRoute(builder: (_) => const OnBoardingScreen4());
+      /*case login:
+        return MaterialPageRoute(builder: (_) => const LoginScreen());*/
+
+      case signup:
+        return MaterialPageRoute(builder: (_) => const SignupScreen());
 
       default:
         return MaterialPageRoute(
