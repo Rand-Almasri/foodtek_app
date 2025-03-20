@@ -12,7 +12,7 @@ class OnBoardingScreen2 extends StatelessWidget {
   }
 
   void _handleSkip(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.onboarding4);
+    Navigator.pushNamed(context, AppRoutes.login);
   }
 
   @override

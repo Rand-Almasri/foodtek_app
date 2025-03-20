@@ -23,47 +23,67 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _loadSavedCredentials();
+    _checkAutoLogin();
   }
 
-  Future<void> _loadSavedCredentials() async {
+  Future<void> _checkAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     bool rememberMe = prefs.getBool('rememberMe') ?? false;
+    String? userId = prefs.getString('userId');
 
-    if (rememberMe) {
-      String? savedEmail = prefs.getString('email');
-      String? savedPassword = prefs.getString('password');
-
-      if (savedEmail != null && savedPassword != null) {
-        // Auto-login if credentials are saved
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        setState(() {
-          _rememberMe = false;
-          emailController.clear();
-          passwordController.clear();
-        });
-      }
-    } else {
-      setState(() {
-        _rememberMe = false;
-        emailController.clear();
-        passwordController.clear();
-      });
+    if (rememberMe && userId != null) {
+      Navigator.pushReplacementNamed(context, '/home');
     }
   }
 
-  Future<void> _saveCredentials() async {
+  Future<void> _saveCredentials(String email, String userId) async {
     final prefs = await SharedPreferences.getInstance();
     if (_rememberMe) {
-      await prefs.setString('email', emailController.text.trim());
-      await prefs.setString('password', passwordController.text.trim());
+      await prefs.setString('userId', userId);
+      await prefs.setString('email', email);
       await prefs.setBool('rememberMe', true);
     } else {
+      await prefs.remove('userId');
       await prefs.remove('email');
-      await prefs.remove('password');
       await prefs.setBool('rememberMe', false);
     }
+  }
+
+  void _handleLogin() async {
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
+    final loginResult = await widget.loginController.login(context, email, password, _rememberMe);
+
+    if (loginResult != null) {
+      await _saveCredentials(email, loginResult['email']!);
+
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Login Successful'),
+            content: Text('Welcome, ${loginResult['name']}!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                  Navigator.pushNamed(context, '/homescreen'); // Navigate to home
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+
+
+  void _handleSkipLogin() {
+    Navigator.pushReplacementNamed(context, '/homescreen');
   }
 
   @override
@@ -137,25 +157,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                             const SizedBox(height: 3),
-                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text("Email",
-                                style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ))]),
-                            const SizedBox(height: 5),
                             CustomTextField(
                               controller: emailController,
                               hintText: "Email@gmail.com",
                             ),
                             const SizedBox(height: 10),
-                            Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text("Password",
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ))]),
-                            const SizedBox(height: 5),
                             CustomTextField(
                               controller: passwordController,
                               hintText: "Password",
@@ -203,15 +209,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(height: 10),
                             CustomButton(
                               text: "Log In",
-                              onPressed: () {
-                                _saveCredentials();
-                                widget.loginController.login(
-                                  context,
-                                  emailController.text.trim(),
-                                  passwordController.text.trim(),
-                                  _rememberMe,
-                                );
-                              },
+                              onPressed: _handleLogin,
+                            ),
+                            const SizedBox(height: 10),
+                            CustomButton(
+                              text: "Skip Login",
+                              onPressed: _handleSkipLogin,
+                              color: Colors.grey,
+                              textColor: Colors.white,
                             ),
                             const SizedBox(height: 15),
                             const Text("Or"),
@@ -247,6 +252,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               iconSize: 24,
                             ),
                             const SizedBox(height: 10),
+
                           ],
                         ),
                       ),
@@ -259,5 +265,4 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-}
+  }}

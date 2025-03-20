@@ -46,7 +46,7 @@ class AppRoutes {
       case resetpasswordscreen:
         return MaterialPageRoute(builder: (_) => ResetPasswordScreen());
       case newpasswordscreen:
-        return MaterialPageRoute(builder: (_) => NewPasswordScreen());
+        return MaterialPageRoute(builder: (_) => NewPasswordScreen(email: '',));
       case signup:
         return MaterialPageRoute(builder: (_) => const SignupScreen());
       default:

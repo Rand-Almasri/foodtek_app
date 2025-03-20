@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
 import '../../../core/routes/app_routes.dart';
@@ -6,13 +7,48 @@ import '../../../core/routes/app_routes.dart';
 class OnBoardingScreen4 extends StatelessWidget {
   const OnBoardingScreen4({Key? key}) : super(key: key);
 
-  void _handleTurnOnLocation(BuildContext context) {
-    // Handle location permission logic here
-    Navigator.pushNamed(context, AppRoutes.login);
+  Future<void> _handleTurnOnLocation(BuildContext context) async {
+    bool permissionGranted = await _requestLocationPermission();
+
+    if (permissionGranted) {
+      Navigator.pushReplacementNamed(context, AppRoutes.login);
+    } else {
+      _showPermissionDeniedDialog(context);
+    }
   }
 
   void _handleCancel(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.login);
+    Navigator.pushReplacementNamed(context, AppRoutes.login);
+  }
+
+  Future<bool> _requestLocationPermission() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.location,
+    ].request();
+
+    return statuses[Permission.location]?.isGranted ?? false;
+  }
+
+  void _showPermissionDeniedDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Location Permission Required"),
+          content: const Text("Please enable location to continue."),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("OK"),
+            ),
+            TextButton(
+              onPressed: () => openAppSettings(),
+              child: const Text("Open Settings"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

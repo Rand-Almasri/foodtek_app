@@ -1,13 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
+import '../../../controller/auth/login_controller.dart';
 import '../../../core/widgets/CustomButton.dart';
-import '../../../core/widgets/CustomTextField.dart';
 
-class NewPasswordScreen extends StatelessWidget {
-  NewPasswordScreen({super.key});
+class NewPasswordScreen extends StatefulWidget {
+  final String email;
 
+  const NewPasswordScreen({super.key, required this.email});
+
+  @override
+  _NewPasswordScreenState createState() => _NewPasswordScreenState();
+}
+
+class _NewPasswordScreenState extends State<NewPasswordScreen> {
   final TextEditingController newPasswordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
+
+  bool _isNewPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
+
+  Future<void> _updatePassword(BuildContext context) async {
+    String newPassword = newPasswordController.text.trim();
+    String confirmPassword = confirmPasswordController.text.trim();
+
+    if (newPassword.isEmpty || confirmPassword.isEmpty) {
+      _showAlert(context, "Error", "Both fields are required.");
+      return;
+    }
+
+    if (newPassword != confirmPassword) {
+      _showAlert(context, "Error", "Passwords do not match.");
+      return;
+    }
+
+    LoginController loginController = LoginController(users: []);
+    await loginController.updatePassword(widget.email, newPassword);
+
+    // Show the custom success dialog
+    showSuccessDialog(context);
+  }
+
+
+  void _showAlert(BuildContext context, String title, String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   void showSuccessDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -32,12 +83,12 @@ class NewPasswordScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
-                 // mainAxisSize: MainAxisSize.min,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     const SizedBox(height: 100),
                     // Confetti Image
                     Image.asset(
-                      'assets/images/alert.png', // Your provided image
+                      'assets/images/alert.png', // Ensure this image exists in assets
                       width: 400,
                       height: 300,
                     ),
@@ -62,14 +113,18 @@ class NewPasswordScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     // Button to Go to Login Page
-                    // CustomButton(
-                    //   text: "Go to Login",
-                    //   onPressed: () {
-                    //
-                    //     Navigator.pop(context); // Close Dialog
-                    //     Navigator.pushReplacementNamed(context, '/login');
-                    //   },
-                    // ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context); // Close Dialog
+                        Navigator.pushReplacementNamed(context, '/login');
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                      ),
+                      child: const Text("Go to Login", style: TextStyle(color: Colors.white, fontSize: 16)),
+                    ),
                   ],
                 ),
               ),
@@ -79,6 +134,7 @@ class NewPasswordScreen extends StatelessWidget {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,13 +175,11 @@ class NewPasswordScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Back Arrow
                             GestureDetector(
                               onTap: () => Navigator.pushReplacementNamed(context, '/resetpasswordscreen'),
                               child: Icon(Icons.arrow_back, size: 20),
                             ),
                             const SizedBox(height: 10),
-                            // Title
                             const Text(
                               "Reset Password",
                               style: TextStyle(
@@ -135,14 +189,13 @@ class NewPasswordScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(height: 5),
-                            // Login Redirection Text
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text("Want to try with my current password?",
                                     style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
                                     )),
                                 TextButton(
                                   onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
@@ -164,10 +217,23 @@ class NewPasswordScreen extends StatelessWidget {
                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(height: 5),
-                            CustomTextField(
+                            TextField(
                               controller: newPasswordController,
-                              hintText: "********",
-                              obscureText: true,
+                              obscureText: !_isNewPasswordVisible,
+                              decoration: InputDecoration(
+                                hintText: "********",
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isNewPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isNewPasswordVisible = !_isNewPasswordVisible;
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
                             const SizedBox(height: 15),
                             // Confirm Password Field
@@ -176,23 +242,28 @@ class NewPasswordScreen extends StatelessWidget {
                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                             ),
                             const SizedBox(height: 5),
-                            CustomTextField(
+                            TextField(
                               controller: confirmPasswordController,
-                              hintText: "********",
-                              obscureText: true,
+                              obscureText: !_isConfirmPasswordVisible,
+                              decoration: InputDecoration(
+                                hintText: "********",
+                                border: OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                                    });
+                                  },
+                                ),
+                              ),
                             ),
                             const SizedBox(height: 30),
-                            // Update Password Button
                             CustomButton(
                               text: "Update Password",
-                              onPressed: () async {
-                                // Simulate a password update delay
-                                await Future.delayed(Duration(seconds: 1));
-
-                                if (context.mounted) {
-                                  showSuccessDialog(context);
-                                }
-                              },
+                              onPressed: () => _updatePassword(context),
                             ),
                           ],
                         ),

@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
 import '../../../core/widgets/CustomButton.dart';
 import '../../../core/widgets/CustomTextField.dart';
+import 'new_password_screen.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   ResetPasswordScreen({super.key});
@@ -11,14 +12,25 @@ class ResetPasswordScreen extends StatelessWidget {
 
   Future<void> _checkEmail(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
-    String? storedEmail = prefs.getString('email');
+    String enteredEmail = emailController.text.trim().toLowerCase();
 
-    if (storedEmail != null && storedEmail == emailController.text.trim()) {
-      Navigator.pushReplacementNamed(context, '/newpasswordscreen'); // Navigate to Update Password screen
+    // Try to get user data from SharedPreferences
+    String? userJson = prefs.getString('user_$enteredEmail');
+
+    if (userJson != null) {
+      // Email found, navigate to update password screen
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NewPasswordScreen(email: enteredEmail),
+        ),
+      );
     } else {
+      // Email not found, show an alert
       _showAlert(context, "Email not found", "The provided email is not registered.");
     }
   }
+
 
   void _showAlert(BuildContext context, String title, String message) {
     showDialog(

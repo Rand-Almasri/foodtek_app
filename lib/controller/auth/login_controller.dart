@@ -30,17 +30,17 @@ class LoginController {
     return users.firstWhereOrNull((user) => user.email == email);
   }
 
-  Future<void> login(BuildContext context, String email, String password, bool rememberMe) async {
+  Future<Map<String, String>?> login(BuildContext context, String email, String password, bool rememberMe) async {
     Map<String, String>? userData = await getUserByEmail(email);
 
     if (userData == null) {
       _showErrorDialog(context, "Email not found.");
-      return;
+      return null;  // Ensure the function returns null if login fails
     }
 
     if (userData['password'] != password) {
       _showErrorDialog(context, "Incorrect password.");
-      return;
+      return null; // Return null on incorrect password
     }
 
     if (rememberMe) {
@@ -49,8 +49,8 @@ class LoginController {
       await _clearCredentials();
     }
 
-    // Login successful
-    Navigator.pushNamed(context, '/homescreen');
+    // Return user data instead of navigating inside this method
+    return userData;
   }
 
   Future<void> _saveCredentials(String email, String password) async {
@@ -93,6 +93,15 @@ class LoginController {
       },
     );
   }
+  Future<void> updatePassword(String email, String newPassword) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? userJson = prefs.getString('user_$email');
 
+    if (userJson != null) {
+      Map<String, String> userData = Map<String, String>.from(jsonDecode(userJson));
+      userData['password'] = newPassword; // Update password
+      await prefs.setString('user_$email', jsonEncode(userData));
+    }
+  }
 
 }
