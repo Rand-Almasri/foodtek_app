@@ -1,4 +1,6 @@
-# Flutter/Dart specific
+# ------------------------------
+# Flutter & Dart Specific
+# ------------------------------
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -7,80 +9,86 @@
 .pub-cache/
 build/
 coverage/
-lib/generated_plugin_registrant.dart
-.idea/
-.vscode/
+**/generated_plugin_registrant.dart
 *.iml
-*.class
-.flutter-plugins-dependencies
 *.lock
+*.log
+*.json
 pubspec.lock
 .last_build_id
-pubspec.lock
 pubspec.yaml.backup
+.fvm/
 
-# Android specific
-/android/app/debug
-/android/app/profile
-/android/app/release
+# ------------------------------
+# IDE & Editor Specific
+# ------------------------------
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# ------------------------------
+# Android Specific
+# ------------------------------
+/android/app/debug/
+/android/app/profile/
+/android/app/release/
 /android/gradle/
 /android/gradlew
 /android/gradlew.bat
 /android/local.properties
-/android/.gradle
+/android/.gradle/
 /android/captures/
-/android/app/release
-/android/.idea/
-/android/app/debug/
-/android/app/profile/
-/android/.settings
-/android/app/src/debug
+/android/.settings/
+/android/app/src/debug/
 
-# iOS specific
+# ------------------------------
+# iOS Specific
+# ------------------------------
 /ios/.symlinks/
 /ios/Flutter/ephemeral/
-/ios/Flutter/App.framework
-/ios/Flutter/Flutter.framework
+/ios/Flutter/App.framework/
+/ios/Flutter/Flutter.framework/
 /ios/Flutter/Generated.xcconfig
-/ios/Flutter/app.flx
 /ios/Flutter/app.zip
 /ios/Flutter/flutter_assets/
 /ios/ServiceDefinitions.json
-/ios/Runner/GeneratedPluginRegistrant.*
 /ios/Pods/
-/ios/Flutter/Flutter.podspec
-/ios/.idea/
+/ios/Podfile.lock
+/ios/Runner/GeneratedPluginRegistrant.*
 
-# Symbols
-app.*.symbols
-
-# macOS specific
+# ------------------------------
+# macOS Specific
+# ------------------------------
 macos/Flutter/ephemeral/
 macos/Flutter/GeneratedPluginRegistrant.*
-macos/.idea/
-macos/Pods
+macos/Pods/
+macos/Podfile.lock
 
-# Windows specific
+# ------------------------------
+# Windows Specific
+# ------------------------------
 windows/Flutter/ephemeral/
 windows/Flutter/Generated.props
 windows/Flutter/flutter_export_environment.sh
-windows/Flutter/GeneratedPluginRegistrant.h
-windows/Flutter/GeneratedPluginRegistrant.cpp
-windows/.idea/
+windows/Flutter/GeneratedPluginRegistrant.*
 
-# General
-*.log
-*.swp
-.DS_Store
-.atom/
-.buildlog/
-.history
-.project
-.settings/
+# ------------------------------
+# General & System Files
+# ------------------------------
+*.class
 *.orig
 *~
 *.tmp
 *.bak
-temp/
+.DS_Store
 .env
 .env.*
+temp/
+debug/
+profile/
+release/
+.sconsign.dblite
+*.symbols
