@@ -39,13 +39,23 @@ class _SignupScreenState extends State<SignupScreen> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      _controller.register(context);
+      _controller.register(context).then((_) {
+        Navigator.pushReplacementNamed(context, AppRoutes.login);
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
+    final Size screenSize = MediaQuery.of(context).size;
+    final bool isTablet = screenSize.width > 600;
+    final bool isLargeScreen = screenSize.width > 900;
+
+    final double logoFontSize = isLargeScreen ? 70 : (isTablet ? 60 : 48);
+    final double headerFontSize = isLargeScreen ? 24 : (isTablet ? 20 : 18);
+    final double textFontSize = isLargeScreen ? 16 : (isTablet ? 14 : 12);
+    final double buttonHeight = isLargeScreen ? 50 : (isTablet ? 45 : 40);
+    final double fieldHeight = isLargeScreen ? 52 : (isTablet ? 48 : 44);
 
     return Scaffold(
       body: Stack(
@@ -62,29 +72,36 @@ class _SignupScreenState extends State<SignupScreen> {
 
           // Logo at the top
           Positioned(
-            top: 15,
+            top: screenSize.height *  0.02,
             left: 0,
             right: 0,
             child: Center(
               child: Text(
                 'Foodtek',
                 style: TextStyle(
-                  fontSize: 60,
+                  fontSize: logoFontSize,
                   color: Colors.white,
                   fontFamily: 'Protest Riot',
-
                 ),
               ),
             ),
           ),
 
-          // Form Container - Centered and Fixed
+          // Responsive Form Container
           Center(
             child: Container(
-              width: 320,
-              height: 628,
-              margin: const EdgeInsets.only(top: 80, bottom: 10),
-              padding: const EdgeInsets.all(24),
+              width: isLargeScreen
+                  ? screenSize.width * 0.5
+                  : (isTablet ? screenSize.width * 0.7 : screenSize.width * 0.85),
+              constraints: BoxConstraints(
+                maxWidth: 500,
+                minWidth: 300,
+              ),
+              margin: EdgeInsets.symmetric(
+                vertical: screenSize.height * 0.05,
+                horizontal: isTablet ? 40 : 20,
+              ),
+              padding: EdgeInsets.all(isTablet ? 30 : 20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
@@ -108,56 +125,56 @@ class _SignupScreenState extends State<SignupScreen> {
                         children: [
                           InkWell(
                             onTap: () => Navigator.pop(context),
-                            child: const Icon(Icons.arrow_back, size: 24),
+                            child: Icon(Icons.arrow_back, size: isTablet ? 28 : 24),
                           ),
                           const Spacer(),
-                          const Text(
+                          Text(
                             'Sign up',
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: headerFontSize,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
                           ),
                           const Spacer(),
-                          const SizedBox(width: 24),
+                          SizedBox(width: isTablet ? 28 : 24),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: screenSize.height * 0.02),
 
                       // Already have an account? Login
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text(
+                          Text(
                             'Already have an account? ',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 14,
+                              fontSize: textFontSize,
                             ),
                           ),
                           InkWell(
                             onTap: () => Navigator.pushNamed(context, AppRoutes.login),
-                            child: const Text(
+                            child: Text(
                               'Login',
                               style: TextStyle(
                                 color: AppColors.primaryGreen,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 14,
+                                fontSize: textFontSize,
                               ),
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: screenSize.height * 0.025),
 
                       // Full Name Field
                       _buildTextField(
                         label: 'Full Name',
                         controller: _controller.nameController,
                         validator: (value) => value!.isEmpty ? 'Please enter your name' : null,
-                        labelSize: 12,
-                        fieldHeight: 44,
+                        labelSize: textFontSize,
+                        fieldHeight: fieldHeight,
                         hintText: 'Lois Becket',
                       ),
 
@@ -169,24 +186,21 @@ class _SignupScreenState extends State<SignupScreen> {
                             ? 'Enter valid email'
                             : null,
                         keyboardType: TextInputType.emailAddress,
-                        labelSize: 12,
-                        fieldHeight: 44,
+                        labelSize: textFontSize,
+                        fieldHeight: fieldHeight,
                         hintText: 'loisbecket@gmail.com',
                       ),
 
-                      // Birth Date Field
-                      _buildDatePickerField(),
+                      _buildDatePickerField(fieldHeight, textFontSize),
 
-                      // Phone Number Field
-                      _buildPhoneField(),
+                      _buildPhoneField(fieldHeight, textFontSize),
 
-                      // Password Field
-                      _buildPasswordField(),
+                      _buildPasswordField(fieldHeight, textFontSize),
 
                       // Register Button
-                      const SizedBox(height: 15),
+                      SizedBox(height: screenSize.height * 0.02),
                       SizedBox(
-                        height: 40,
+                        height: buttonHeight,
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: _submitForm,
@@ -196,10 +210,10 @@ class _SignupScreenState extends State<SignupScreen> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             'Register',
                             style: TextStyle(
-                                fontSize: 14,
+                                fontSize: textFontSize,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
@@ -221,8 +235,8 @@ class _SignupScreenState extends State<SignupScreen> {
     required TextEditingController controller,
     String? Function(String?)? validator,
     TextInputType? keyboardType,
-    double labelSize = 14,
-    double fieldHeight = 44,
+    required double labelSize,
+    required double fieldHeight,
     String? hintText,
   }) {
     return Padding(
@@ -245,7 +259,7 @@ class _SignupScreenState extends State<SignupScreen> {
               controller: controller,
               keyboardType: keyboardType,
               validator: validator,
-              style: const TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: labelSize),
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey[100],
@@ -258,7 +272,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   vertical: 12,
                 ),
                 hintText: hintText,
-                hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                hintStyle: TextStyle(fontSize: labelSize, color: Colors.grey),
               ),
             ),
           ),
@@ -267,33 +281,33 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildDatePickerField() {
+  Widget _buildDatePickerField(double fieldHeight, double textSize) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Date of birth',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: textSize,
               color: Colors.black54,
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: 6),
           SizedBox(
-            height: 48,
+            height: fieldHeight,
             child: TextFormField(
               controller: _controller.birthDateController,
               readOnly: true,
               onTap: _selectDate,
               validator: (value) => value!.isEmpty ? 'Please select birth date' : null,
-              style: const TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: textSize),
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey[100],
-                suffixIcon: const Icon(Icons.calendar_today, size: 20, color: Colors.grey),
+                suffixIcon: Icon(Icons.calendar_today, size: textSize + 6, color: Colors.grey),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide.none,
@@ -303,7 +317,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   vertical: 12,
                 ),
                 hintText: '18/03/2024',
-                hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                hintStyle: TextStyle(fontSize: textSize, color: Colors.grey),
               ),
             ),
           ),
@@ -312,16 +326,16 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildPhoneField() {
+  Widget _buildPhoneField(double fieldHeight, double textSize) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Phone Number',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: textSize,
               color: Colors.black54,
               fontWeight: FontWeight.w500,
             ),
@@ -330,7 +344,7 @@ class _SignupScreenState extends State<SignupScreen> {
           Row(
             children: [
               Container(
-                height: 48,
+                height: fieldHeight,
                 decoration: BoxDecoration(
                   color: Colors.grey[100],
                   borderRadius: BorderRadius.circular(12),
@@ -349,18 +363,18 @@ class _SignupScreenState extends State<SignupScreen> {
                   alignLeft: false,
                   flagWidth: 24,
                   padding: const EdgeInsets.symmetric(horizontal: 8),
-                  textStyle: const TextStyle(fontSize: 14),
+                  textStyle: TextStyle(fontSize: textSize),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: SizedBox(
-                  height: 48,
+                  height: fieldHeight,
                   child: TextFormField(
                     controller: _controller.phoneController,
                     keyboardType: TextInputType.phone,
                     validator: (value) => value!.length < 10 ? 'Invalid phone number' : null,
-                    style: const TextStyle(fontSize: 14),
+                    style: TextStyle(fontSize: textSize),
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.grey[100],
@@ -373,7 +387,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         vertical: 12,
                       ),
                       hintText: '(454) 726-0592',
-                      hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                      hintStyle: TextStyle(fontSize: textSize, color: Colors.grey),
                     ),
                   ),
                 ),
@@ -385,35 +399,35 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget _buildPasswordField() {
+  Widget _buildPasswordField(double fieldHeight, double textSize) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Set Password',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: textSize,
               color: Colors.black54,
               fontWeight: FontWeight.w500,
             ),
           ),
           const SizedBox(height: 6),
           SizedBox(
-            height: 48,
+            height: fieldHeight,
             child: TextFormField(
               controller: _controller.passwordController,
               obscureText: !_isPasswordVisible,
               validator: (value) => value!.length < 6 ? 'Minimum 6 characters required' : null,
-              style: const TextStyle(fontSize: 14),
+              style: TextStyle(fontSize: textSize),
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.grey[100],
                 suffixIcon: IconButton(
                   icon: Icon(
                     _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                    size: 20,
+                    size: textSize + 6,
                     color: Colors.grey,
                   ),
                   onPressed: () => setState(() => _isPasswordVisible = !_isPasswordVisible),
@@ -427,7 +441,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   vertical: 12,
                 ),
                 hintText: '••••••••',
-                hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                hintStyle: TextStyle(fontSize: textSize, color: Colors.grey),
               ),
             ),
           ),

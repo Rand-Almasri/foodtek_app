@@ -97,14 +97,6 @@ class SignupController {
     }
   }
 
-  // Placeholder method for registration functionality
-  // void register(BuildContext context) {
-  //   // For now, just show a success message
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     const SnackBar(content: Text('Registration successful!')),
-  //   );
-  //   // In a real app, you would call authentication service here
-  // }
   Future<void> storeUserData() async {
     final prefs = await SharedPreferences.getInstance();
     Map<String, String> userData = {
@@ -119,12 +111,14 @@ class SignupController {
     await prefs.setString('user_${userData['email']}', userJson); // Store by email
   }
 
-  void register(BuildContext context) async {
+
+  Future<void> register(BuildContext context) async {
     await storeUserData();
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Registration successful!')),
     );
   }
+
   Future<Map<String, String>?> getUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? name = prefs.getString('name');
