@@ -14,11 +14,9 @@ class ResetPasswordScreen extends StatelessWidget {
     final prefs = await SharedPreferences.getInstance();
     String enteredEmail = emailController.text.trim().toLowerCase();
 
-    // Try to get user data from SharedPreferences
     String? userJson = prefs.getString('user_$enteredEmail');
 
     if (userJson != null) {
-      // Email found, navigate to update password screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -26,11 +24,9 @@ class ResetPasswordScreen extends StatelessWidget {
         ),
       );
     } else {
-      // Email not found, show an alert
       _showAlert(context, "Email not found", "The provided email is not registered.");
     }
   }
-
 
   void _showAlert(BuildContext context, String title, String message) {
     showDialog(
