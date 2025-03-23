@@ -61,7 +61,7 @@ class _NewPasswordScreenState extends State<NewPasswordScreen> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return Dialog(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black26,
           child: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
