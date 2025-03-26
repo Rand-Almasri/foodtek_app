@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:collection/collection.dart';
@@ -35,12 +34,12 @@ class LoginController {
 
     if (userData == null) {
       _showErrorDialog(context, "Email not found.");
-      return null;  // Ensure the function returns null if login fails
+      return null;
     }
 
     if (userData['password'] != password) {
       _showErrorDialog(context, "Incorrect password.");
-      return null; // Return null on incorrect password
+      return null;
     }
 
     if (rememberMe) {
@@ -49,7 +48,6 @@ class LoginController {
       await _clearCredentials();
     }
 
-    // Return user data instead of navigating inside this method
     return userData;
   }
 
@@ -93,6 +91,7 @@ class LoginController {
       },
     );
   }
+
   Future<void> updatePassword(String email, String newPassword) async {
     final prefs = await SharedPreferences.getInstance();
     String? userJson = prefs.getString('user_$email');
@@ -103,5 +102,4 @@ class LoginController {
       await prefs.setString('user_$email', jsonEncode(userData));
     }
   }
-
 }

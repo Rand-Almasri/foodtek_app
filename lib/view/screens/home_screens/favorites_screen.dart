@@ -1,99 +1,130 @@
 import 'package:flutter/material.dart';
+import '../../widgets/favorite_item_tile.dart';
 
-class FavoriteScreen extends StatelessWidget {
+class FavoritesScreen extends StatelessWidget {
+  const FavoritesScreen({super.key});
+
+  final List<Map<String, dynamic>> _favoriteItems = const [
+    {
+      'name': 'Pepperoni Pizza',
+      'price': 29.0,
+      'imagePath': 'assets/images/pepperoni.jpg',
+      'description': 'A classic pizza topped with delicious pepperoni slices and tomato sauce.',
+    },
+    {
+      'name': 'Pizza Cheese',
+      'price': 23.0,
+      'imagePath': 'assets/images/bigpizza.jpg',
+      'description': ' pizza covered with layers of gooey melted cheese for a creamy texture',
+    },
+    {
+      'name': 'Peppy Paneer',
+      'price': 13.0,
+      'imagePath': 'assets/images/peppy-paneer.jpg',
+      'description': 'An Indian-style pizza featuring grilled paneer chunks and spicy seasonings',
+    },
+    {
+      'name': 'Mexican Green Wave',
+      'price': 23.0,
+      'imagePath': 'assets/images/Mexican_Green_Wave.jpg',
+      'description': 'A pizza with bold Mexican flavors, loaded with crunchy onions',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.all(16.0),
-    child: ListView(
-      children: [
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Current location', style: TextStyle(color: Colors.grey)),
-                Text('Jl. Soekarno Hatta 15A',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-              ],
+    return Scaffold(
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            // Header
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Current location',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Text(
+                          'Jl. Soekarno Hatta 15A',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Icon(Icons.notifications_none)
+                  ],
+                ),
+              ),
             ),
-            Icon(Icons.notifications_none)
+
+            // Search Bar
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search menu, restaurant or etc',
+                    prefixIcon: Icon(Icons.search, color: Colors.grey),
+                    filled: true,
+                    fillColor: Colors.grey[200],
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Favorites Title
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                child: Text(
+                  'Favorites',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            // Favorites Section
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 4,
+                  mainAxisSpacing: 4,
+                  childAspectRatio: 0.6,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    final item = _favoriteItems[index];
+                    return FavoriteItemTile(
+                      name: item['name'],
+                      price: item['price'],
+                      imagePath: item['imagePath'],
+                      description: item['description'],
+                    );
+                  },
+                  childCount: _favoriteItems.length,
+                ),
+              ),
+            ),
           ],
         ),
-        SizedBox(height: 10),
-        TextField(
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.search),
-            hintText: 'Search menu, restaurant or etc',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
-            ),
-            filled: true,
-            fillColor: Colors.grey[200],
-          ),
-        ),
-        SizedBox(height: 20),
-        SectionTitle(title: 'Favorite Meals'),
-        SizedBox(height: 10),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              FoodCard(title: 'Favorite Pizza', rating: 4.7, price: 25.00),
-              FoodCard(title: 'Favorite Burger', rating: 4.5, price: 18.00),
-            ],
-          ),
-        ),
-      ],)
-    );
-  }
-}
-class SectionTitle extends StatelessWidget {
-  final String title;
-  SectionTitle({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    );
-  }
-}
-
-class FoodCard extends StatelessWidget {
-  final String title;
-  final double rating;
-  final double price;
-  FoodCard({required this.title, required this.rating, required this.price});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        children: [
-          Text(title),
-          Text('⭐ $rating'),
-          Text('\$ $price'),
-        ],
       ),
-    );
-  }
-}
-
-class CategoryChip extends StatelessWidget {
-  final String label;
-  final bool isSelected;
-  CategoryChip({required this.label, required this.isSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      label: Text(label),
-      backgroundColor: isSelected ? Colors.green : Colors.grey[300],
     );
   }
 }

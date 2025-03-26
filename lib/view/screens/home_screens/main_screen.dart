@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 import 'favorites_screen.dart';
 import 'home_screen.dart';
+import 'history_screen.dart';
+import 'profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -13,8 +14,10 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomeScreen(),  // Home content extracted into a separate widget
-    FavoriteScreen(),
+    HomeScreen(),
+    FavoritesScreen(),
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -26,51 +29,46 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _pages,
-      ),
-      bottomNavigationBar: BottomAppBar(
-        shape: CircularNotchedRectangle(),
-        notchMargin: 8,
-        color: Color(0xFFDFF3D1),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _buildNavItem(Icons.home, "Home", 0),
-            _buildNavItem(Icons.favorite_border, "Favorites", 1),
-            SizedBox(width: 40),
-            _buildNavItem(Icons.history, "History", 2),
-            _buildNavItem(Icons.person, "Profile", 3),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        backgroundColor: Color(0xFF2EA44F),
-        child: Icon(Icons.shopping_cart, color: Colors.white),
-        shape: CircleBorder(),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-    );
-  }
-  Widget _buildNavItem(IconData icon, String label, int index) {
-    return GestureDetector(
-      onTap: () => _onItemTapped(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: _selectedIndex == index ? Colors.green : Colors.black54),
-          Text(
-            label,
-            style: TextStyle(
-              color: _selectedIndex == index ? Colors.green : Colors.black54,
-              fontWeight: FontWeight.bold,
+      body: _pages[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color(0xFFDFF3D1),
+        selectedItemColor: Color(0xFF2EA44F),
+        unselectedItemColor: Colors.black54,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Home",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: "Favorites",
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Color(0xFF2EA44F),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.shopping_cart, color: Colors.white),
             ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: "History",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
           ),
         ],
       ),
     );
   }
 }
-

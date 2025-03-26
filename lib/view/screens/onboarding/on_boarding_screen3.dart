@@ -51,7 +51,7 @@ class OnboardingScreen3 extends StatelessWidget {
                       ),
                       SizedBox(height: 16,),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60),
+                        padding: const EdgeInsets.symmetric(horizontal: 58),
                         child: Text(
                           'Order Your Favorite Food Within The Palm Of Your Hand And The Zone Of Your Comfort',
                           textAlign: TextAlign.center,
