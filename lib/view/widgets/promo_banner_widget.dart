@@ -1,57 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class PromoBannerWidget extends StatelessWidget {
+class AutoChangingBanner extends StatefulWidget {
+  @override
+  _AutoChangingBannerState createState() => _AutoChangingBannerState();
+}
+
+class _AutoChangingBannerState extends State<AutoChangingBanner> {
+  final PageController _pageController = PageController();
+  int _currentIndex = 0;
+
+  final List<String> _adImages = [
+    'assets/images/ads1.jpg',
+    'assets/images/ads2.jpg',
+    'assets/images/ads3.jpg',
+    'assets/images/ads4.jpg',
+    'assets/images/ads5.jpg',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Auto-play functionality
+    Future.delayed(Duration(seconds: 3), _autoPlay);
+  }
+
+  void _autoPlay() {
+    if (_currentIndex < _adImages.length - 1) {
+      _pageController.nextPage(
+        duration: Duration(milliseconds: 800),
+        curve: Curves.easeInOut,
+      );
+    } else {
+      _pageController.jumpToPage(0);
+    }
+    Future.delayed(Duration(seconds: 3), _autoPlay);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Container(
-          height: 130,
-          decoration: BoxDecoration(
-            color: Colors.green,
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                right: 0,
-                top: 0,
-                bottom: 0,
+    return Column(
+      children: [
+        SizedBox(height: 20,),
+        Container(
+          width: MediaQuery.of(context).size.width, // Use full width
+          height: 125, // Set a reasonable height
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            children: _adImages.map((imagePath) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(15),
                 child: Image.asset(
-                  'assets/images/bigpizza.jpg',
+                  imagePath,
+                  width: MediaQuery.of(context).size.width, // Use full width
+                  height: 120,
                   fit: BoxFit.cover,
                 ),
-              ),
-              Positioned(
-                left: 20,
-                top: 0,
-                bottom: 0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '30% OFF',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'on delicious new dish',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              );
+            }).toList(),
           ),
         ),
-      ),
+        SizedBox(height: 10),
+        SmoothPageIndicator(
+          controller: _pageController,
+          count: _adImages.length,
+          effect: WormEffect(
+            activeDotColor: Colors.green,
+            dotColor: Colors.grey,
+            dotWidth: 10,
+            dotHeight: 10,
+          ),
+        ),
+      ],
     );
   }
 }

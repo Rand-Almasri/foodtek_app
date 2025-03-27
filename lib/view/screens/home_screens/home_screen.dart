@@ -28,19 +28,33 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            HeaderWidget(),
-            SearchBarWidget(),
-            CategoryChipsWidget(),
-            PromoBannerWidget(),
-            SliverToBoxAdapter(
-              child: TopRatedWidget(
-                onFavoriteAdd: _addToFavorites,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: CustomScrollView(
+            slivers: [
+              HeaderWidget(),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30.0), // Adjust as needed
+                  child: SearchBarWidget(),
+                ),
               ),
-            ),
-            RecommendedWidget(),
-          ],
+              CategoryChipsWidget(),
+              SliverToBoxAdapter(
+                 // Adjust as needed
+                  child: AutoChangingBanner(),
+                ),
+
+             // AutoChangingBanner(),
+              SliverToBoxAdapter(
+                child: TopRatedWidget(
+                  onFavoriteAdd: _addToFavorites,
+                ),
+              ),
+              RecommendedWidget(),
+
+            ],
+          ),
         ),
       ),
     );
