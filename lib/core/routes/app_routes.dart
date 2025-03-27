@@ -29,6 +29,7 @@ class AppRoutes {
   static const String homescreen = '/homescreen';
   static const String favoritesscreen = '/favoritesscreen';
 
+
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
@@ -41,6 +42,7 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
       case onboarding4:
         return MaterialPageRoute(builder: (_) => const OnBoardingScreen4());
+
       case mainscreen:
       case homescreen:
         return MaterialPageRoute(builder: (_) => MainScreen());

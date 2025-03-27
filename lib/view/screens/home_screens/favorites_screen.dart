@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../widgets/favorite_item_tile.dart';
+import '../../widgets/header_widget.dart';
+import '../../widgets/search_bar_widget.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -38,49 +40,11 @@ class FavoritesScreen extends StatelessWidget {
         child: CustomScrollView(
           slivers: [
             // Header
+            HeaderWidget(),
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Current location',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Text(
-                          'Jl. Soekarno Hatta 15A',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Icon(Icons.notifications_none)
-                  ],
-                ),
-              ),
-            ),
-
-            // Search Bar
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search menu, restaurant or etc',
-                    prefixIcon: Icon(Icons.search, color: Colors.grey),
-                    filled: true,
-                    fillColor: Colors.grey[200],
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
+                padding: const EdgeInsets.only(bottom: 30.0), // Adjust as needed
+                child: SearchBarWidget(),
               ),
             ),
 

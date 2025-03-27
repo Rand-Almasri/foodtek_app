@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'food_order_widget.dart';
+
 class FavoriteItemTile extends StatefulWidget {
   final String name;
   final double price;
@@ -40,13 +42,13 @@ class _FavoriteItemTileState extends State<FavoriteItemTile> {
                     color: Colors.black87,
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     minimumSize: Size(double.infinity, 50),
                   ),
-                  child: const Text(
+                  child: Text(
                     'Yes',
                     style: TextStyle(
                       color: Colors.white,
@@ -121,7 +123,7 @@ class _FavoriteItemTileState extends State<FavoriteItemTile> {
               children: [
                 Text(
                   widget.name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
@@ -131,22 +133,22 @@ class _FavoriteItemTileState extends State<FavoriteItemTile> {
                 if (widget.description.isNotEmpty)
                   Text(
                     widget.description,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.grey,
                       fontSize: 10,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text(
                   '\$${widget.price.toStringAsFixed(2)}',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.green,
                     fontSize:13,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 7),
+                SizedBox(height: 7),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -156,9 +158,19 @@ class _FavoriteItemTileState extends State<FavoriteItemTile> {
                     ),
                   ),
                   onPressed: () {
-                    // Order now functionality
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FoodOrderWidget(
+                          name: widget.name,
+                          price: widget.price,
+                          imagePath: widget.imagePath,
+                          description: widget.description,
+                        ),
+                      ),
+                    );
                   },
-                  child: const Text(
+                  child: Text(
                     'Order Now',
                     style: TextStyle(
                       color: Colors.white,
