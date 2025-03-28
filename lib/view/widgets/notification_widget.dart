@@ -35,6 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   }
 
   @override
+
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> filteredNotifications = notifications.where((notif) {
       if (selectedTab == 1) return !notif['isRead'];
@@ -42,94 +43,101 @@ class _NotificationScreenState extends State<NotificationScreen> {
       return true;
     }).toList();
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true, // Centers the title
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          "Notifications",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold, // Makes text bold
+    return Column(
+      children: [
+        // Add a drag handle at the top
+        Container(
+          margin: EdgeInsets.only(top: 8, bottom: 8),
+          width: 40,
+          height: 4,
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(2),
           ),
         ),
-        actions: [
-          PopupMenuButton<String>(
-            icon: Icon(Icons.more_vert, color: Colors.black),
-            onSelected: (value) {
-              if (value == 'delete_all') {
-                deleteAllMessages();
-              } else if (value == 'delete_read') {
-                deleteReadMessages();
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(value: 'delete_all', child: Text('Delete All Messages')),
-              PopupMenuItem(value: 'delete_read', child: Text('Delete Read Messages')),
+
+        // Add a custom header instead of AppBar
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                icon: Icon(Icons.arrow_back, color: Colors.black),
+                onPressed: () => Navigator.pop(context),
+              ),
+              Text(
+                "Notifications",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+              PopupMenuButton<String>(
+                icon: Icon(Icons.more_vert, color: Colors.black),
+                onSelected: (value) {
+                  if (value == 'delete_all') {
+                    deleteAllMessages();
+                  } else if (value == 'delete_read') {
+                    deleteReadMessages();
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(value: 'delete_all', child: Text('Delete All Messages')),
+                  PopupMenuItem(value: 'delete_read', child: Text('Delete Read Messages')),
+                ],
+              ),
             ],
           ),
-          SizedBox(width: 16),
-        ],
-      ),
+        ),
 
-      body: Padding(
-        padding: EdgeInsets.zero, // Remove padding
-        child: Column(
+        // Rest of your content remains the same
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center, // Center the items
-              children: [
-                NotificationTab(
-                  label: "All",
-                  isSelected: selectedTab == 0,
-                  onTap: () => setState(() => selectedTab = 0),
-                ),
-                SizedBox(width: 18),
-                NotificationTab(
-                  label: "Unread",
-                  isSelected: selectedTab == 1,
-                  onTap: () => setState(() => selectedTab = 1),
-                ),
-                SizedBox(width: 18),
-                NotificationTab(
-                  label: "Read",
-                  isSelected: selectedTab == 2,
-                  onTap: () => setState(() => selectedTab = 2),
-                ),
-              ],
+            NotificationTab(
+              label: "All",
+              isSelected: selectedTab == 0,
+              onTap: () => setState(() => selectedTab = 0),
             ),
-
-            Expanded(
-              child: filteredNotifications.isEmpty
-                  ? Center(child: Text("No notifications"))
-                  : ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8), // Remove horizontal padding
-                itemCount: filteredNotifications.length,
-                itemBuilder: (context, index) {
-                  int originalIndex = notifications.indexOf(filteredNotifications[index]);
-                  return GestureDetector(
-                    onTap: () => markAsRead(originalIndex),
-                    child: NotificationItem(
-                      title: filteredNotifications[index]['title'],
-                      message: filteredNotifications[index]['message'],
-                      icon: filteredNotifications[index]['icon'],
-                      isNew: !filteredNotifications[index]['isRead'],
-                    ),
-                  );
-                },
-              ),
+            SizedBox(width: 18),
+            NotificationTab(
+              label: "Unread",
+              isSelected: selectedTab == 1,
+              onTap: () => setState(() => selectedTab = 1),
+            ),
+            SizedBox(width: 18),
+            NotificationTab(
+              label: "Read",
+              isSelected: selectedTab == 2,
+              onTap: () => setState(() => selectedTab = 2),
             ),
           ],
         ),
-      ),
-    );
 
+        Expanded(
+          child: filteredNotifications.isEmpty
+              ? Center(child: Text("No notifications"))
+              : ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+            itemCount: filteredNotifications.length,
+            itemBuilder: (context, index) {
+              int originalIndex = notifications.indexOf(filteredNotifications[index]);
+              return GestureDetector(
+                onTap: () => markAsRead(originalIndex),
+                child: NotificationItem(
+                  title: filteredNotifications[index]['title'],
+                  message: filteredNotifications[index]['message'],
+                  icon: filteredNotifications[index]['icon'],
+                  isNew: !filteredNotifications[index]['isRead'],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }
 

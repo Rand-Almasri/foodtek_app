@@ -32,7 +32,8 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: CustomScrollView(
             slivers: [
-              HeaderWidget(),
+              SliverToBoxAdapter( // Add this SliverToBoxAdapter
+              child: HeaderWidget(),),
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 30.0), // Adjust as needed
