@@ -1,0 +1,331 @@
+import 'package:flutter/material.dart';
+import '../../../../data/models/burger_model.dart';
+import '../../../widgets/header_widget.dart';
+import '../../../widgets/search_bar_widget.dart';
+import '../favorites_screen.dart';
+import '../history_screen.dart';
+import '../home_screen.dart';
+import '../main_screen.dart';
+import '../profile_screen.dart';
+
+
+
+class BurgerPage extends StatefulWidget {
+  const BurgerPage({super.key});
+
+  @override
+  State<BurgerPage> createState() => _BurgerPageState();
+}
+
+class _BurgerPageState extends State<BurgerPage> {
+  final List<BurgerItem> _burgerItems = [
+    BurgerItem(
+      name: 'Classic Burger',
+      price: 18.5,
+      imagePath: 'assets/images/classic_burger.jpg',
+      description: 'Juicy beef patty with fresh lettuce and tomato',
+    ),
+    BurgerItem(
+      name: 'Cheese Burger',
+      price: 21.0,
+      imagePath: 'assets/images/cheese_burger.jpg',
+      description: 'Classic burger with melted cheddar cheese',
+    ),
+    BurgerItem(
+      name: 'Veggie Burger',
+      price: 17.0,
+      imagePath: 'assets/images/veggie_burger.jpg',
+      description: 'Plant-based patty with avocado and sprouts',
+    ),
+    BurgerItem(
+      name: 'BBQ Bacon Burger',
+      price: 24.5,
+      imagePath: 'assets/images/bbq_burger.jpg',
+      description: 'Beef patty topped with bacon and BBQ sauce',
+    ),
+    BurgerItem(
+      name: 'Mushroom Swiss',
+      price: 22.0,
+      imagePath: 'assets/images/mushroom_burger.jpg',
+      description: 'Beef burger with sautéed mushrooms and Swiss cheese',
+    ),
+  ];
+
+  // Set to 2 for shopping cart (current page is related to food)
+  int _selectedIndex = 2;
+
+  void _onItemTapped(int index) {
+    // Don't navigate if we're already on the selected index
+    if (index == _selectedIndex) {
+      return;
+    }
+
+    // Handle navigation based on the index
+    switch (index) {
+      case 0:
+      // Navigate to Home
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MainScreen()),
+        );
+        break;
+      case 1:
+      // Navigate to Favorites
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => FavoritesScreen()),
+        );
+        break;
+      case 2:
+      // Already on food screen, no need to navigate
+        break;
+      case 3:
+      // Navigate to History
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HistoryScreen()),
+        );
+        break;
+      case 4:
+      // Navigate to Profile
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => ProfileScreen()),
+        );
+        break;
+    }
+  }
+
+  void _showAddedToFavoritesSnackbar(String burgerName) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$burgerName added to favorites!'),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final crossAxisCount = screenWidth > 600 ? 3 : 2;
+
+    return WillPopScope(
+      // Handle back button to ensure proper navigation
+      onWillPop: () async {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+        return false; // Prevent default back behavior
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const HeaderWidget(),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20.0),
+                      child: SearchBarWidget(),
+                    ),
+                  ],
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                sliver: SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: _calculateChildAspectRatio(context),
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                      final item = _burgerItems[index];
+                      return BurgerCard(
+                        item: item,
+                        onFavoritePressed: () {
+                          _showAddedToFavoritesSnackbar(item.name);
+                        },
+                      );
+                    },
+                    childCount: _burgerItems.length,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: const Color(0xFFDFF3D1),
+          selectedItemColor: const Color(0xFF2EA44F),
+          unselectedItemColor: Colors.black54,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          items: [
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: "Home",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.favorite_border),
+              label: "Favorites",
+            ),
+            BottomNavigationBarItem(
+              icon: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: const BoxDecoration(
+                  color: Color(0xFF2EA44F),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.shopping_cart, color: Colors.white),
+              ),
+              label: "",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.history),
+              label: "History",
+            ),
+            const BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: "Profile",
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  double _calculateChildAspectRatio(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    return screenWidth > 600 ? (screenWidth > screenHeight ? 1.1 : 0.85)
+        : (screenHeight > screenWidth ? 0.75 : 0.85);
+  }
+}
+
+class BurgerCard extends StatelessWidget {
+  final BurgerItem item;
+  final VoidCallback onFavoritePressed;
+
+  const BurgerCard({
+    super.key,
+    required this.item,
+    required this.onFavoritePressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 2,
+      margin: const EdgeInsets.all(4),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: Colors.green, width: 1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 100,
+              child: Stack(
+                children: [
+                  Center(
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: AssetImage(item.imagePath),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.favorite_border,
+                        color: Colors.green,
+                      ),
+                      onPressed: onFavoritePressed,
+                      iconSize: 24,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      item.name,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      item.description,
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '\$${item.price.toStringAsFixed(2)}',
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+            SizedBox(
+              height: 36,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  minimumSize: const Size(double.infinity, 36),
+                ),
+                onPressed: () {},
+                child: const Text(
+                  'ORDER NOW',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

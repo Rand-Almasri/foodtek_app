@@ -32,28 +32,25 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: CustomScrollView(
             slivers: [
-              SliverToBoxAdapter( // Add this SliverToBoxAdapter
-              child: HeaderWidget(),),
+              const SliverToBoxAdapter(
+                child: HeaderWidget(),
+              ),
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 30.0), // Adjust as needed
+                  padding: const EdgeInsets.only(bottom: 30.0),
                   child: SearchBarWidget(),
                 ),
               ),
-              CategoryChipsWidget(),
+              const CategoryChipsWidget(),
               SliverToBoxAdapter(
-                 // Adjust as needed
-                  child: AutoChangingBanner(),
-                ),
-
-             // AutoChangingBanner(),
+                child: AutoChangingBanner(),
+              ),
               SliverToBoxAdapter(
                 child: TopRatedWidget(
                   onFavoriteAdd: _addToFavorites,
                 ),
               ),
               RecommendedWidget(),
-
             ],
           ),
         ),
