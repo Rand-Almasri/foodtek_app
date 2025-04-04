@@ -3,6 +3,7 @@ import '../screens/home_screens/category_pages/burger_page.dart';
 import '../screens/home_screens/category_pages/drinks_page.dart';
 import '../screens/home_screens/category_pages/pizza_page.dart';
 import '../screens/home_screens/category_pages/sandwiches_page.dart';
+import '../screens/home_screens/main_screen.dart';
 
 class CategoryChipsWidget extends StatelessWidget {
   final String? selectedCategory;
@@ -20,7 +21,12 @@ class CategoryChipsWidget extends StatelessWidget {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            buildCategoryChip(context, 'All', selectedCategory == 'All'),
+            buildCategoryChip(context, 'All', selectedCategory == 'All', onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  MainScreen()),
+              );
+            }),
             buildCategoryChip(context, '🍔 Burger', selectedCategory == '🍔 Burger', onTap: () {
               Navigator.push(
                 context,

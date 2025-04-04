@@ -98,7 +98,7 @@ class TopRatedWidget extends StatelessWidget {
                           'rating': rating
                         });
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Added to Favorites'))
+                            SnackBar(content: Text('Added to Cart'))
                         );
                       },
                       child: Container(

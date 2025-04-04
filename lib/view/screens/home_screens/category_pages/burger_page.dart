@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/burger_model.dart';
+import '../../../../data/models/favorite_item.dart';
+import '../../../widgets/category_chips_widget.dart';
 import '../../../widgets/header_widget.dart';
 import '../../../widgets/search_bar_widget.dart';
+import '../../../widgets/food_order_widget.dart';
 import '../favorites_screen.dart';
 import '../history_screen.dart';
 import '../home_screen.dart';
 import '../main_screen.dart';
 import '../profile_screen.dart';
-
-
 
 class BurgerPage extends StatefulWidget {
   const BurgerPage({super.key});
@@ -22,13 +23,13 @@ class _BurgerPageState extends State<BurgerPage> {
     BurgerItem(
       name: 'Classic Burger',
       price: 18.5,
-      imagePath: 'assets/images/classic_burger.jpg',
+      imagePath: 'assets/images/chickenburger.jpg',
       description: 'Juicy beef patty with fresh lettuce and tomato',
     ),
     BurgerItem(
       name: 'Cheese Burger',
       price: 21.0,
-      imagePath: 'assets/images/cheese_burger.jpg',
+      imagePath: 'assets/images/cheseburger.jpg',
       description: 'Classic burger with melted cheddar cheese',
     ),
     BurgerItem(
@@ -46,48 +47,40 @@ class _BurgerPageState extends State<BurgerPage> {
     BurgerItem(
       name: 'Mushroom Swiss',
       price: 22.0,
-      imagePath: 'assets/images/mushroom_burger.jpg',
+      imagePath: 'assets/images/mushroom_burger1.jpg',
       description: 'Beef burger with sautéed mushrooms and Swiss cheese',
     ),
   ];
 
-  // Set to 2 for shopping cart (current page is related to food)
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
-    // Don't navigate if we're already on the selected index
     if (index == _selectedIndex) {
       return;
     }
 
-    // Handle navigation based on the index
     switch (index) {
       case 0:
-      // Navigate to Home
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainScreen()),
         );
         break;
       case 1:
-      // Navigate to Favorites
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => FavoritesScreen()),
         );
         break;
       case 2:
-      // Already on food screen, no need to navigate
         break;
       case 3:
-      // Navigate to History
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HistoryScreen()),
         );
         break;
       case 4:
-      // Navigate to Profile
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ProfileScreen()),
@@ -105,19 +98,57 @@ class _BurgerPageState extends State<BurgerPage> {
     );
   }
 
+  void _showOrderDialog(BurgerItem burgerItem) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: FoodOrderWidget(
+            item: FavoriteItem(
+              name: burgerItem.name,
+              price: burgerItem.price,
+              imagePath: burgerItem.imagePath,
+              description: burgerItem.description,
+            ),
+            onBackPressed: () => Navigator.pop(context),
+            onAddToCart: (orderDetails) {
+              // Handle the order here
+              print('Added to cart: ${orderDetails.item.name}');
+              Navigator.pop(context);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('added ${orderDetails.item.name} to cart'),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth > 600 ? 3 : 2;
 
     return WillPopScope(
-      // Handle back button to ensure proper navigation
       onWillPop: () async {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-        return false; // Prevent default back behavior
+        return false;
       },
       child: Scaffold(
         body: SafeArea(
@@ -135,6 +166,7 @@ class _BurgerPageState extends State<BurgerPage> {
                   ],
                 ),
               ),
+              const CategoryChipsWidget(selectedCategory: '🍔 Burger'),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 sliver: SliverGrid(
@@ -151,6 +183,9 @@ class _BurgerPageState extends State<BurgerPage> {
                         item: item,
                         onFavoritePressed: () {
                           _showAddedToFavoritesSnackbar(item.name);
+                        },
+                        onOrderPressed: () {
+                          _showOrderDialog(item);
                         },
                       );
                     },
@@ -215,11 +250,13 @@ class _BurgerPageState extends State<BurgerPage> {
 class BurgerCard extends StatelessWidget {
   final BurgerItem item;
   final VoidCallback onFavoritePressed;
+  final VoidCallback onOrderPressed;
 
   const BurgerCard({
     super.key,
     required this.item,
     required this.onFavoritePressed,
+    required this.onOrderPressed,
   });
 
   @override
@@ -312,7 +349,7 @@ class BurgerCard extends StatelessWidget {
                   ),
                   minimumSize: const Size(double.infinity, 36),
                 ),
-                onPressed: () {},
+                onPressed: onOrderPressed,
                 child: const Text(
                   'ORDER NOW',
                   style: TextStyle(

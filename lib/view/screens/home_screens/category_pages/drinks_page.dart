@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../../../data/models/drink_model.dart';
+import '../../../../data/models/favorite_item.dart';
+import '../../../widgets/category_chips_widget.dart';
 import '../../../widgets/header_widget.dart';
 import '../../../widgets/search_bar_widget.dart';
+import '../../../widgets/food_order_widget.dart';
 import '../favorites_screen.dart';
 import '../history_screen.dart';
 import '../home_screen.dart';
 import '../main_screen.dart';
 import '../profile_screen.dart';
-
 
 class DrinksPage extends StatefulWidget {
   const DrinksPage({super.key});
@@ -56,43 +58,35 @@ class _DrinksPageState extends State<DrinksPage> {
     ),
   ];
 
-  // Set to 2 for shopping cart (current page is related to food/drinks)
   int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
-    // Don't navigate if we're already on the selected index
     if (index == _selectedIndex) {
       return;
     }
 
-    // Handle navigation based on the index
     switch (index) {
       case 0:
-      // Navigate to Home
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => MainScreen()),
         );
         break;
       case 1:
-      // Navigate to Favorites
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => FavoritesScreen()),
         );
         break;
       case 2:
-      // Already on food/drinks screen, no need to navigate
         break;
       case 3:
-      // Navigate to History
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HistoryScreen()),
         );
         break;
       case 4:
-      // Navigate to Profile
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => ProfileScreen()),
@@ -110,19 +104,57 @@ class _DrinksPageState extends State<DrinksPage> {
     );
   }
 
+  void _showOrderDialog(DrinkItem drinkItem) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+          ),
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: FoodOrderWidget(
+            item: FavoriteItem(
+              name: drinkItem.name,
+              price: drinkItem.price,
+              imagePath: drinkItem.imagePath,
+              description: drinkItem.description,
+            ),
+            onBackPressed: () => Navigator.pop(context),
+            onAddToCart: (orderDetails) {
+              // Handle the order here
+              print('Added to cart: ${orderDetails.item.name}');
+              Navigator.pop(context);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('added ${orderDetails.item.name} to cart'),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth > 600 ? 3 : 2;
 
     return WillPopScope(
-      // Handle back button to ensure proper navigation
       onWillPop: () async {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-        return false; // Prevent default back behavior
+        return false;
       },
       child: Scaffold(
         body: SafeArea(
@@ -140,6 +172,7 @@ class _DrinksPageState extends State<DrinksPage> {
                   ],
                 ),
               ),
+              const CategoryChipsWidget(selectedCategory: '🥤 Drinks'),
               SliverPadding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 sliver: SliverGrid(
@@ -156,6 +189,9 @@ class _DrinksPageState extends State<DrinksPage> {
                         item: item,
                         onFavoritePressed: () {
                           _showAddedToFavoritesSnackbar(item.name);
+                        },
+                        onOrderPressed: () {
+                          _showOrderDialog(item);
                         },
                       );
                     },
@@ -220,11 +256,13 @@ class _DrinksPageState extends State<DrinksPage> {
 class DrinkCard extends StatelessWidget {
   final DrinkItem item;
   final VoidCallback onFavoritePressed;
+  final VoidCallback onOrderPressed;
 
   const DrinkCard({
     super.key,
     required this.item,
     required this.onFavoritePressed,
+    required this.onOrderPressed,
   });
 
   @override
@@ -317,7 +355,7 @@ class DrinkCard extends StatelessWidget {
                   ),
                   minimumSize: const Size(double.infinity, 36),
                 ),
-                onPressed: () {},
+                onPressed: onOrderPressed,
                 child: const Text(
                   'ORDER NOW',
                   style: TextStyle(
