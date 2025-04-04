@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close dialog
-                  Navigator.pushNamed(context, '/homescreen'); // Navigate to home
+                  Navigator.pushNamed(context, '/mainscreen'); // Navigate to home
                 },
                 child: Text('OK'),
               ),
@@ -81,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _handleSkipLogin() {
-    Navigator.pushReplacementNamed(context, '/homescreen');
+    Navigator.pushReplacementNamed(context, '/mainscreen');
   }
 
   @override

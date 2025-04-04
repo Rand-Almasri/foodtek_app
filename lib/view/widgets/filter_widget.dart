@@ -52,6 +52,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Colors.white,
         title: const Text('Filter'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
