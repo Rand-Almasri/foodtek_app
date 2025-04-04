@@ -21,7 +21,8 @@ class CategoryChipsWidget extends StatelessWidget {
         child: ListView(
           scrollDirection: Axis.horizontal,
           children: [
-            buildCategoryChip(context, 'All', selectedCategory == 'All', onTap: () {
+            buildCategoryChip(context, 'All', selectedCategory == null || selectedCategory == 'All', onTap: () {
+
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) =>  MainScreen()),
