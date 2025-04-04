@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodtek_app/view/screens/home_screens/cart_screen.dart';
 
 import 'favorites_screen.dart';
 import 'home_screen.dart';
@@ -16,6 +17,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomeScreen(),
     FavoritesScreen(),
+    CartScreen(),
     HistoryScreen(),
     ProfileScreen(),
   ];

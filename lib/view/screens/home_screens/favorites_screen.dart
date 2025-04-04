@@ -73,6 +73,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
     return Scaffold(
       body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: CustomScrollView(
           physics: const AlwaysScrollableScrollPhysics(),
           slivers: [
@@ -122,7 +124,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 ),
               ),
           ],
-        ),
+        ),)
       ),
     );
   }
