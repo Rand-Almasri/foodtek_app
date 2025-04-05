@@ -1,16 +1,74 @@
-# foodtek_app
+# Foodtek App
 
-A new Flutter project.
+Foodtek is a mobile application built using Flutter, aiming to provide a seamless food ordering experience for users. This repository contains the UI design and structure for the first three sections of the application.
 
-## Getting Started
+## Overview
 
-This project is a starting point for a Flutter application.
+This project demonstrates a clean and modular Flutter architecture, focusing on scalable and maintainable code. It includes the following three main sections:
+1. Onboarding Screens
+2. Authentication Screens (Login, Sign Up, OTP)
+3. Home Screens
 
-A few resources to get you started if this is your first Flutter project:
+Upcoming sections (4, 5, 6) will be added soon.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Folder Structure
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+lib/
+│
+├── controller/
+│   └── auth/
+│       ├── login_controller.dart
+│       ├── otp_controller.dart
+│       └── signup_controller.dart
+│
+├── core/
+│   ├── constants/
+│   ├── routes/
+│   └── widgets/
+│
+├── data/
+│   └── models/
+│       ├── burger_model.dart
+│       ├── drink_model.dart
+│       ├── favorite_item.dart
+│       ├── on_boarding_model.dart
+│       ├── pizza_model.dart
+│       ├── sandwich_model.dart
+│       └── user_model.dart
+│
+├── view/
+│   ├── screens/
+│   │   ├── auth_screens/
+│   │   ├── home_screens/
+│   │   └── onboarding/
+│   │       └── splash_screen.dart
+│   └── widgets/
+│
+└── main.dart
+```
+
+## Technologies Used
+
+- Flutter
+- Dart
+- GetX for state management and routing
+
+## Screens Preview
+
+- Onboarding screens with animations
+- Authentication (Login, Sign Up, OTP Verification)
+- Home UI for browsing food categories
+
+## Contributors
+
+- **Rand Al-Masri**
+- **Sara Kronz**
+
+## Status
+
+The first 3 sections are completed and uploaded. Future sections (4, 5, 6) are coming soon.
+
+## Contact
+
+For feedback or inquiries, feel free to reach out via GitHub or email.
