@@ -52,7 +52,6 @@ lib/
 
 - Flutter
 - Dart
-- GetX for state management and routing
 
 ## Screens Preview
 
