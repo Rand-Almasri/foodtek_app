@@ -41,8 +41,9 @@ lib/
 │   ├── screens/
 │   │   ├── auth_screens/
 │   │   ├── home_screens/
-│   │   └── onboarding/
-│   │       └── splash_screen.dart
+│   │       └──category_pages/
+│   │   └── onboarding_screens/
+│   │   └── splash_screen.dart
 │   └── widgets/
 │
 └── main.dart
@@ -55,7 +56,7 @@ lib/
 
 ## Screens Preview
 
-- Onboarding screens with animations
+- splash screen and Onboarding screens with location on
 - Authentication (Login, Sign Up, OTP Verification)
 - Home UI for browsing food categories
 
