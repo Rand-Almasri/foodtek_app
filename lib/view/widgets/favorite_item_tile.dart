@@ -5,27 +5,29 @@ class FavoriteItemTile extends StatefulWidget {
   final FavoriteItem item;
   final VoidCallback onOrderPressed;
   final VoidCallback onRemoveFromFavorites;
-  final bool isFavorite; // Added to control favorite state from parent
+  final bool isFavorite;
+  final Function(int) onAddToCart;
 
   const FavoriteItemTile({
-    super.key,
+    Key? key,
     required this.item,
     required this.onOrderPressed,
     required this.onRemoveFromFavorites,
-    required this.isFavorite, // Added
-  });
+    required this.isFavorite,
+    required this.onAddToCart,
+  }) : super(key: key);
 
   @override
   State<FavoriteItemTile> createState() => _FavoriteItemTileState();
 }
 
 class _FavoriteItemTileState extends State<FavoriteItemTile> {
-  late bool _isFavorite; // Changed to late since we'll initialize in initState
+  late bool _isFavorite;
 
   @override
   void initState() {
     super.initState();
-    _isFavorite = widget.isFavorite; // Initialize from parent
+    _isFavorite = widget.isFavorite;
   }
 
   @override
@@ -81,10 +83,9 @@ class _FavoriteItemTileState extends State<FavoriteItemTile> {
       ) ?? false;
 
       if (confirmed && mounted) {
-        widget.onRemoveFromFavorites(); // Let parent handle the removal
+        widget.onRemoveFromFavorites();
       }
     } else {
-      // No confirmation needed when adding to favorites
       setState(() {
         _isFavorite = true;
       });
@@ -135,65 +136,25 @@ class _FavoriteItemTileState extends State<FavoriteItemTile> {
                 ],
               ),
             ),
-            Flexible(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      widget.item.name,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      widget.item.description,
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      '\$${widget.item.price.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontSize: 13,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            const SizedBox(height: 8),
+            Text(
+              widget.item.name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              '\$${widget.item.price.toStringAsFixed(2)}',
+              style: const TextStyle(color: Colors.green),
             ),
             const SizedBox(height: 8),
-            SizedBox(
-              height: 36,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  minimumSize: const Size(double.infinity, 36),
-                ),
-                onPressed: widget.onOrderPressed,
-                child: const Text(
-                  'ORDER NOW',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
+            ElevatedButton(
+              onPressed: widget.onOrderPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                minimumSize: const Size(double.infinity, 36),
+              ),
+              child: const Text(
+                'Order Now',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],

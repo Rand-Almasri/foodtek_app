@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+
 import '../../data/models/favorite_item.dart';
 
 class FoodOrderWidget extends StatefulWidget {
   final FavoriteItem item;
   final VoidCallback onBackPressed;
-  final ValueChanged<OrderDetails>? onAddToCart;
+  final Function(OrderDetails) onAddToCart; // Modified to accept OrderDetails
 
   const FoodOrderWidget({
     Key? key,
     required this.item,
     required this.onBackPressed,
-    this.onAddToCart,
+    required this.onAddToCart,
   }) : super(key: key);
 
   @override
@@ -63,7 +64,7 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: AspectRatio(
-        aspectRatio: 16/9,
+        aspectRatio: 16 / 9,
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Image.asset(
@@ -114,7 +115,8 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
         const SizedBox(height: 6),
         Row(
           children: [
-            ...List.generate(4, (_) => const Icon(Icons.star, color: Colors.amber, size: 18)),
+            ...List.generate(
+                4, (_) => const Icon(Icons.star, color: Colors.amber, size: 18)),
             const Icon(Icons.star_border, color: Colors.amber, size: 18),
             const SizedBox(width: 6),
             Text(
@@ -157,9 +159,8 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
   Widget _buildControlsRow() {
     return Row(
       children: [
-        // Spiciness Control
         Expanded(
-          flex: 3,  // Increased flex to give more space
+          flex: 3,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -184,12 +185,9 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
             ],
           ),
         ),
-
-        const SizedBox(width: 12),  // Reduced spacing
-
-        // Quantity Control
+        const SizedBox(width: 12),
         Expanded(
-          flex: 2,  // Adjusted flex
+          flex: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -206,10 +204,9 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Minus button
                     SizedBox(
-                      width: 36,  // Reduced width
-                      height: 32, // Reduced height
+                      width: 36,
+                      height: 32,
                       child: OutlinedButton(
                         onPressed: () {
                           setState(() {
@@ -226,10 +223,9 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
                         child: const Icon(Icons.remove, size: 16),
                       ),
                     ),
-                    const SizedBox(width: 6),  // Reduced spacing
-                    // Quantity display
+                    const SizedBox(width: 6),
                     SizedBox(
-                      width: 28,  // Fixed width for number display
+                      width: 28,
                       child: Text(
                         '$_quantity',
                         textAlign: TextAlign.center,
@@ -239,8 +235,7 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 6),  // Reduced spacing
-                    // Plus button
+                    const SizedBox(width: 6),
                     SizedBox(
                       width: 36,
                       height: 32,
@@ -280,7 +275,7 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
           spiciness: _spiciness.round(),
         );
 
-        widget.onAddToCart?.call(order);
+        widget.onAddToCart(order); // Call with OrderDetails
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -300,9 +295,9 @@ class _FoodOrderWidgetState extends State<FoodOrderWidget> {
         ),
         padding: const EdgeInsets.symmetric(vertical: 12),
       ),
-      child: Text(
+      child: const Text(
         'ADD TO CART ',
-        style: const TextStyle(
+        style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.bold,
           fontSize: 16,

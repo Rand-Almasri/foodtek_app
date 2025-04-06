@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodtek_app/view/screens/home_screens/cart_screen.dart';
 
+import '../../../data/models/cart_item.dart' show CartItem;
 import 'favorites_screen.dart';
 import 'home_screen.dart';
 import 'history_screen.dart';
@@ -12,12 +13,26 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  List<CartItem> _cartItems = [];
+
+  void _addToCart(CartItem item) {
+    final index = _cartItems.indexWhere((i) => i.name == item.name);
+    if (index != -1) {
+      setState(() {
+        _cartItems[index].quantity += item.quantity;
+      });
+    } else {
+      setState(() {
+        _cartItems.add(item);
+      });
+    }
+  }
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
+  List<Widget> get _pages => [
     HomeScreen(),
-    FavoritesScreen(),
-    CartScreen(),
+    FavoritesScreen(cartItems: _cartItems, onAddToCart: _addToCart),
+    CartScreen(cartItems: _cartItems),
     HistoryScreen(),
     ProfileScreen(),
   ];

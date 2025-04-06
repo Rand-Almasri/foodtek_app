@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../data/models/burger_model.dart';
 import '../../../../data/models/favorite_item.dart';
 import '../../../widgets/category_chips_widget.dart';
+import '../../../widgets/food_order_widget.dart';
 import '../../../widgets/header_widget.dart';
 import '../../../widgets/search_bar_widget.dart';
-import '../../../widgets/food_order_widget.dart';
 import '../favorites_screen.dart';
 import '../history_screen.dart';
 import '../home_screen.dart';
@@ -25,30 +25,35 @@ class _BurgerPageState extends State<BurgerPage> {
       price: 18.5,
       imagePath: 'assets/images/chickenburger.jpg',
       description: 'Juicy beef patty with fresh lettuce and tomato',
+      restaurant: 'Burger'
     ),
     BurgerItem(
       name: 'Cheese Burger',
       price: 21.0,
       imagePath: 'assets/images/cheseburger.jpg',
       description: 'Classic burger with melted cheddar cheese',
+        restaurant: 'Burger'
     ),
     BurgerItem(
       name: 'Veggie Burger',
       price: 17.0,
       imagePath: 'assets/images/veggie_burger.jpg',
       description: 'Plant-based patty with avocado and sprouts',
+        restaurant: 'Burger'
     ),
     BurgerItem(
       name: 'BBQ Bacon Burger',
       price: 24.5,
       imagePath: 'assets/images/bbq_burger.jpg',
       description: 'Beef patty topped with bacon and BBQ sauce',
+        restaurant: 'Burger'
     ),
     BurgerItem(
       name: 'Mushroom Swiss',
       price: 22.0,
       imagePath: 'assets/images/mushroom_burger1.jpg',
       description: 'Beef burger with sautéed mushrooms and Swiss cheese',
+        restaurant: 'Burger'
     ),
   ];
 
@@ -69,7 +74,7 @@ class _BurgerPageState extends State<BurgerPage> {
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => FavoritesScreen()),
+          MaterialPageRoute(builder: (context) => FavoritesScreen(cartItems: [], onAddToCart: (CartItem ) {  },)),
         );
         break;
       case 2:
@@ -117,6 +122,8 @@ class _BurgerPageState extends State<BurgerPage> {
               price: burgerItem.price,
               imagePath: burgerItem.imagePath,
               description: burgerItem.description,
+              restaurant: burgerItem.restaurant
+
             ),
             onBackPressed: () => Navigator.pop(context),
             onAddToCart: (orderDetails) {

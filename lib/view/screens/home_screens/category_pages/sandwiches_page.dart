@@ -25,36 +25,47 @@ class _SandwichesPageState extends State<SandwichesPage> {
       price: 15.0,
       imagePath: 'assets/images/chicken_club.jpg',
       description: 'Grilled chicken with bacon, lettuce, and tomato',
+      restaurant: 'Sandwich'
     ),
     SandwichItem(
       name: 'BLT Sandwich',
       price: 12.5,
       imagePath: 'assets/images/blt_sandwich.jpg',
       description: 'Classic bacon, lettuce, and tomato on toasted bread',
+        restaurant: 'Sandwich'
+
     ),
     SandwichItem(
       name: 'Tuna Melt',
       price: 14.0,
       imagePath: 'assets/images/tuna_melt.jpg',
       description: 'Tuna salad with melted cheese on grilled bread',
+        restaurant: 'Sandwich'
+
     ),
     SandwichItem(
       name: 'Veggie Wrap',
       price: 11.5,
       imagePath: 'assets/images/veggie_wrap.jpg',
       description: 'Fresh vegetables with hummus in a whole wheat wrap',
+        restaurant: 'Sandwich'
+
     ),
     SandwichItem(
       name: 'Grilled Cheese',
       price: 10.0,
       imagePath: 'assets/images/grilled_cheese.jpg',
       description: 'Triple cheese blend melted between buttery bread',
+        restaurant: 'Sandwich'
+
     ),
     SandwichItem(
       name: 'Turkey Avocado',
       price: 16.5,
       imagePath: 'assets/images/turkey_avocado.jpg',
       description: 'Sliced turkey with avocado, sprouts, and aioli',
+        restaurant: 'Sandwich'
+
     ),
   ];
 
@@ -78,7 +89,7 @@ class _SandwichesPageState extends State<SandwichesPage> {
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => FavoritesScreen()),
+          MaterialPageRoute(builder: (context) => FavoritesScreen(cartItems: [], onAddToCart: (CartItem ) {  },)),
         );
         break;
       case 2:
@@ -137,6 +148,7 @@ class _SandwichesPageState extends State<SandwichesPage> {
               price: sandwichItem.price,
               imagePath: sandwichItem.imagePath,
               description: sandwichItem.description,
+              restaurant: sandwichItem.restaurant
             ),
             onBackPressed: () => Navigator.pop(context),
             onAddToCart: (orderDetails) {

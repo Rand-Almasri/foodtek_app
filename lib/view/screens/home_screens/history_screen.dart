@@ -54,7 +54,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   void navigateToCartScreen() {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => const CartScreen(),
+        builder: (context) =>  CartScreen(cartItems: [],),
       ),
     );
   }

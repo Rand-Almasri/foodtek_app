@@ -25,24 +25,31 @@ class _PizzaPageState extends State<PizzaPage> {
       price: 29.0,
       imagePath: 'assets/images/pepperoni.jpg',
       description: 'Classic pizza with pepperoni and tomato sauce',
+      restaurant: 'Pizza'
     ),
     PizzaItem(
       name: 'Pizza Cheese',
       price: 23.0,
       imagePath: 'assets/images/bigpizza.jpg',
       description: 'Pizza with layers of melted cheese',
+        restaurant: 'Pizza'
+
     ),
     PizzaItem(
       name: 'Peppy Paneer',
       price: 13.0,
       imagePath: 'assets/images/peppy-paneer.jpg',
       description: 'Indian-style pizza with paneer and spices',
+        restaurant: 'Pizza'
+
     ),
     PizzaItem(
       name: 'Mexican Green Wave',
       price: 23.0,
       imagePath: 'assets/images/Mexican_Green_Wave.jpg',
       description: 'A pizza with bold Mexican flavors, loaded with crunchy onions',
+        restaurant: 'Pizza'
+
     ),
   ];
 
@@ -63,7 +70,7 @@ class _PizzaPageState extends State<PizzaPage> {
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => FavoritesScreen()),
+          MaterialPageRoute(builder: (context) => FavoritesScreen(cartItems: [], onAddToCart: (CartItem ) {  },)),
         );
         break;
       case 2:
@@ -111,6 +118,7 @@ class _PizzaPageState extends State<PizzaPage> {
               price: pizzaItem.price,
               imagePath: pizzaItem.imagePath,
               description: pizzaItem.description,
+              restaurant: pizzaItem.restaurant
             ),
             onBackPressed: () => Navigator.pop(context),
             onAddToCart: (orderDetails) {

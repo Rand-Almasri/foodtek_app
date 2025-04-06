@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import '../../../../data/models/drink_model.dart';
 import '../../../../data/models/favorite_item.dart';
 import '../../../widgets/category_chips_widget.dart';
+import '../../../widgets/food_order_widget.dart';
 import '../../../widgets/header_widget.dart';
 import '../../../widgets/search_bar_widget.dart';
-import '../../../widgets/food_order_widget.dart';
 import '../favorites_screen.dart';
 import '../history_screen.dart';
 import '../home_screen.dart';
@@ -25,36 +25,47 @@ class _DrinksPageState extends State<DrinksPage> {
       price: 7.5,
       imagePath: 'assets/images/orange_juice.jpg',
       description: 'Freshly squeezed orange juice',
+      restaurant: 'drink'
     ),
     DrinkItem(
       name: 'Iced Coffee',
       price: 8.0,
       imagePath: 'assets/images/iced_coffee.jpg',
       description: 'Cold brewed coffee with ice and cream',
+        restaurant: 'drink'
+
     ),
     DrinkItem(
       name: 'Strawberry Smoothie',
       price: 9.0,
       imagePath: 'assets/images/strawberry_smoothie.jpg',
       description: 'Blend of fresh strawberries, yogurt and honey',
+        restaurant: 'drink'
+
     ),
     DrinkItem(
       name: 'Mint Lemonade',
       price: 6.5,
       imagePath: 'assets/images/mint_lemonade.jpg',
       description: 'Fresh lemonade with mint leaves',
+        restaurant: 'drink'
+
     ),
     DrinkItem(
       name: 'Chocolate Milkshake',
       price: 10.0,
       imagePath: 'assets/images/chocolate_milkshake.jpg',
       description: 'Creamy chocolate shake with whipped cream',
+        restaurant: 'drink'
+
     ),
     DrinkItem(
       name: 'Green Tea',
       price: 5.0,
       imagePath: 'assets/images/green_tea.jpg',
       description: 'Organic green tea with honey',
+        restaurant: 'drink'
+
     ),
   ];
 
@@ -75,7 +86,7 @@ class _DrinksPageState extends State<DrinksPage> {
       case 1:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => FavoritesScreen()),
+          MaterialPageRoute(builder: (context) => FavoritesScreen(cartItems: [], onAddToCart: (CartItem ) {  },)),
         );
         break;
       case 2:
@@ -123,6 +134,7 @@ class _DrinksPageState extends State<DrinksPage> {
               price: drinkItem.price,
               imagePath: drinkItem.imagePath,
               description: drinkItem.description,
+              restaurant: drinkItem.restaurant
             ),
             onBackPressed: () => Navigator.pop(context),
             onAddToCart: (orderDetails) {

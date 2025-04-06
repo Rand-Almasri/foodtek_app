@@ -1,13 +1,14 @@
 class FavoriteItem {
   final String name;
-  final double price;
   final String imagePath;
-  final String description;
-
-  const FavoriteItem({
+  final String restaurant;  // Make sure this property exists
+  final double price;
+final String description;
+  FavoriteItem({
     required this.name,
-    required this.price,
     required this.imagePath,
-    required this.description,
+    required this.restaurant,
+    required this.price,
+    required this.description
   });
 }

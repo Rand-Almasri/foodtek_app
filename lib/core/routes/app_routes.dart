@@ -5,6 +5,7 @@ import 'package:foodtek_app/view/screens/auth_screens/new_password_screen.dart';
 import 'package:foodtek_app/view/screens/auth_screens/reset_screen.dart';
 import 'package:foodtek_app/view/screens/auth_screens/signup_screen.dart';
 import 'package:foodtek_app/view/screens/auth_screens/verification_screen.dart';
+import 'package:foodtek_app/view/screens/home_screens/cart_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/favorites_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/home_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/main_screen.dart';
@@ -28,6 +29,8 @@ class AppRoutes {
   static const String verification = '/verification';
   static const String homescreen = '/homescreen';
   static const String favoritesscreen = '/favoritesscreen';
+  static const String cartscreen = '/cartscreen';
+
 
 
   static Route<dynamic>? generateRoute(RouteSettings settings) {
@@ -60,11 +63,13 @@ class AppRoutes {
         );
       case signup:
         return MaterialPageRoute(builder: (_) => const SignupScreen());
+      case cartscreen:
+        return MaterialPageRoute(builder: (_) =>  CartScreen(cartItems: [],));
       case verification:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
       case favoritesscreen:
         return MaterialPageRoute(
-          builder: (context) => FavoritesScreen(
+          builder: (context) => FavoritesScreen(cartItems: [], onAddToCart: (CartItem ) {  },
 
           ),
         );
