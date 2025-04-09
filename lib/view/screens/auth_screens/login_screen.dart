@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
-import '../../../controller/auth/login_controller.dart' show LoginController;
+import '../../../controller/auth/login_controller.dart';
 import '../../../core/widgets/CustomButton.dart';
 import '../../../core/widgets/CustomTextField.dart';
 
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(); // Close dialog
-                  Navigator.pushNamed(context, '/homescreen'); // Navigate to home
+                  Navigator.pushNamed(context, '/mainscreen'); // Navigate to home
                 },
                 child: Text('OK'),
               ),
@@ -80,10 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
-
   void _handleSkipLogin() {
-    Navigator.pushReplacementNamed(context, '/homescreen');
+    Navigator.pushReplacementNamed(context, '/mainscreen');
   }
 
   @override
@@ -116,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
@@ -150,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       style: TextStyle(
                                         color: AppColors.primaryGreen,
                                         fontFamily: 'Inter',
-                                        fontSize: 12,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                       )),
                                 ),
@@ -179,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 8),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -206,7 +204,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         ))),
                               ],
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 8),
                             CustomButton(
                               text: "Log In",
                               onPressed: _handleLogin,
@@ -252,7 +250,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               iconSize: 24,
                             ),
                             const SizedBox(height: 10),
-
                           ],
                         ),
                       ),
@@ -265,4 +262,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }}
+  }
+}
