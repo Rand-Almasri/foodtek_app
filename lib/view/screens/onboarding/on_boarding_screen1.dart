@@ -6,13 +6,11 @@ import '../../../core/routes/app_routes.dart';
 class OnboardingScreen1 extends StatelessWidget {
   const OnboardingScreen1({Key? key}) : super(key: key);
 
-  void _handleContinue(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.onboarding2);
-  }
+  void _handleContinue(BuildContext context) =>
+      Navigator.pushNamed(context, AppRoutes.onboarding2);
 
-  void _handleSkip(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.login);
-  }
+  void _handleSkip(BuildContext context) =>
+      Navigator.pushNamed(context, AppRoutes.login);
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +27,13 @@ class OnboardingScreen1 extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: 90,),
+                      const SizedBox(height: 90),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 40),
                         child: Image.asset(
                           'assets/images/onboarding_welcome.jpeg',
                           fit: BoxFit.contain,
@@ -55,7 +55,6 @@ class OnboardingScreen1 extends StatelessWidget {
                           style: AppTextStyles.onboardingtext,
                         ),
                       ),
-
                     ],
                   ),
                 ),

@@ -5,7 +5,7 @@ class SearchBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
         height: 50,
         decoration: BoxDecoration(
@@ -16,15 +16,16 @@ class SearchBarWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
+                padding: const EdgeInsets.only(left: 0.0),
                 child: TextField(
                   textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 8.0),
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search, color: Colors.grey[600]),
                     hintText: 'Search menu, restaurant or etc',
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(vertical: 15),
-                    hintStyle: TextStyle(color: Colors.grey[500]),
+                    contentPadding: EdgeInsets.only(left: -11.0, top: 12.0, bottom: 10.0),
+                    hintStyle: TextStyle(color: Colors.grey[500], fontSize: 13.0),
                     isDense: true,
                   ),
                 ),

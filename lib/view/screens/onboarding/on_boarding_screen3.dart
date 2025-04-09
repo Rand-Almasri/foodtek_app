@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
-
 import '../../../core/routes/app_routes.dart';
 
 class OnboardingScreen3 extends StatelessWidget {
-  const OnboardingScreen3({Key? key}) : super(key: key);
+  const OnboardingScreen3 ({Key? key}) : super(key: key);
 
   void _handleContinue(BuildContext context) {
     Navigator.pushNamed(context, AppRoutes.onboarding4);
@@ -30,12 +29,13 @@ class OnboardingScreen3 extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: 160,),
-
+                      const SizedBox(height: 90),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, ),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 40),
                         child: Image.asset(
                           'assets/images/onboarding_delivery.jpeg',
                           fit: BoxFit.contain,
@@ -43,22 +43,20 @@ class OnboardingScreen3 extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 1),
+                        padding: const EdgeInsets.only(top: 8, bottom: 12),
                         child: Text(
                           'Choose Your Food',
                           style: AppTextStyles.onboardingHeading,
                         ),
                       ),
-                      SizedBox(height: 16,),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 58),
+                        padding: const EdgeInsets.symmetric(horizontal: 44),
                         child: Text(
                           'Order Your Favorite Food Within The Palm Of Your Hand And The Zone Of Your Comfort',
                           textAlign: TextAlign.center,
                           style: AppTextStyles.onboardingtext,
                         ),
                       ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -69,7 +67,7 @@ class OnboardingScreen3 extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: double.infinity,
-                      height: 56,
+                      height: 48,
                       child: ElevatedButton(
                         onPressed: () => _handleContinue(context),
                         style: ElevatedButton.styleFrom(

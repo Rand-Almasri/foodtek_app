@@ -4,7 +4,6 @@ import '../../../data/models/order_history_model.dart';
 import '../../widgets/history_item_widget.dart';
 import '../../widgets/empty_history_widget.dart';
 import '../../widgets/header_widget.dart';
-import 'cart_screen.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -41,22 +40,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
     ),
   ];
 
-  bool _isHistorySelected = true;
-
   bool get hasHistoryItems => historyItems.isNotEmpty;
 
   void deleteItem(int index) {
     setState(() {
       historyItems.removeAt(index);
     });
-  }
-
-  void navigateToCartScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) =>  CartScreen(cartItems: [],),
-      ),
-    );
   }
 
   @override
@@ -69,84 +58,29 @@ class _HistoryScreenState extends State<HistoryScreen> {
             // Using the HeaderWidget
             const HeaderWidget(),
 
-            // Tabs - Cart and History
+            // History Title Centered
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  // Cart Tab - 50%
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _isHistorySelected = false;
-                        });
-                        navigateToCartScreen();
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            'Cart',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: _isHistorySelected
-                                  ? AppColors.secondary
-                                  : AppColors.primaryGreen,
-                              fontWeight: _isHistorySelected
-                                  ? FontWeight.normal
-                                  : FontWeight.bold,
-                            ),
-                          ),
-                          Container(
-                            height: 2,
-                            color: _isHistorySelected
-                                ? Colors.transparent
-                                : AppColors.primaryGreen,
-                            margin: const EdgeInsets.only(top: 4),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  // History Tab - 50%
-                  Expanded(
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _isHistorySelected = true;
-                        });
-                      },
-                      child: Column(
-                        children: [
-                          Text(
-                            'History',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: _isHistorySelected
-                                  ? AppColors.primaryGreen
-                                  : AppColors.secondary,
-                              fontWeight: _isHistorySelected
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
-                            ),
-                          ),
-                          Container(
-                            height: 2,
-                            color: _isHistorySelected
-                                ? AppColors.primaryGreen
-                                : Colors.transparent,
-                            margin: const EdgeInsets.only(top: 4),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              alignment: Alignment.center,
+              child: const Text(
+                'History',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: AppColors.primaryGreen,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
 
-            const SizedBox(height: 18),
+            // Divider line
+            Container(
+              width: 100,
+              height: 2,
+              color: AppColors.primaryGreen,
+              margin: const EdgeInsets.only(bottom: 16),
+            ),
+
+            const SizedBox(height: 10),
 
             // Content - Either history items or empty state
             Expanded(

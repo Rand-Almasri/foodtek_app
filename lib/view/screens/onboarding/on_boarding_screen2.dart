@@ -1,4 +1,3 @@
-// Screen 2 (OnBoardingScreen2.dart)
 import 'package:flutter/material.dart';
 import 'package:foodtek_app/core/constants/constant_colors.dart';
 import '../../../core/constants/text_styles.dart';
@@ -30,11 +29,12 @@ class OnBoardingScreen2 extends StatelessWidget {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      SizedBox(height: 160,),
+                      const SizedBox(height: 90),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20, ),
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
                         child: Image.asset(
                           'assets/images/onboarding_delivery.jpeg',
                           fit: BoxFit.contain,
@@ -42,23 +42,20 @@ class OnBoardingScreen2 extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 1),
+                        padding: const EdgeInsets.only(top: 8, bottom: 12),
                         child: Text(
                           'Get Delivery On Time',
                           style: AppTextStyles.onboardingHeading,
                         ),
                       ),
-
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60),
+                        padding: const EdgeInsets.symmetric(horizontal: 44),
                         child: Text(
                           'Order Your Favorite Food Within The Palm Of Your Hand And The Zone Of Your Comfort',
                           textAlign: TextAlign.center,
                           style: AppTextStyles.onboardingtext,
-
                         ),
                       ),
-                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -69,7 +66,7 @@ class OnBoardingScreen2 extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: double.infinity,
-                      height: 56,
+                      height: 48,
                       child: ElevatedButton(
                         onPressed: () => _handleContinue(context),
                         style: ElevatedButton.styleFrom(
@@ -99,8 +96,8 @@ class OnBoardingScreen2 extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            _buildDot(isActive: false),
                             _buildDot(isActive: true),
+                            _buildDot(isActive: false),
                             _buildDot(isActive: false),
                           ],
                         ),

@@ -91,7 +91,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                 children: [
                                   const Icon(Icons.arrow_back, size: 16),
                                   const SizedBox(width: 4),
-                                  const Text("Back to", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+                                  const Text("Back to ", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
                                   TextButton(
                                     onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
                                     style: ButtonStyle(
