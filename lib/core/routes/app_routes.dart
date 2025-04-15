@@ -15,6 +15,12 @@ import 'package:foodtek_app/view/screens/onboarding/on_boarding_screen3.dart';
 import 'package:foodtek_app/view/screens/onboarding/on_boarding_screen4.dart';
 import 'package:foodtek_app/view/screens/splash_screen.dart';
 
+import '../../view/screens/checkout_screens/add_card_screen.dart' show AddCardScreen;
+import '../../view/screens/checkout_screens/checkout_screen.dart' show CheckoutScreen;
+import '../../view/screens/checkout_screens/order_success_screen.dart';
+import '../../view/screens/checkout_screens/set_location_screen.dart';
+import '../../view/screens/home_screens/test_navigation_screen.dart';
+
 class AppRoutes {
   static const String splash = '/splash';
   static const String onboarding1 = '/onboarding1';
@@ -30,6 +36,11 @@ class AppRoutes {
   static const String homescreen = '/homescreen';
   static const String favoritesscreen = '/favoritesscreen';
   static const String cartscreen = '/cartscreen';
+  static const String setLocation = '/setLocation';
+  static const String checkout = '/checkout';
+  static const String addCard = '/addCard';
+  static const String orderSuccess = '/orderSuccess';
+  static const String testNavigation = '/testNavigation';
 
 
 
@@ -72,7 +83,18 @@ class AppRoutes {
           builder: (context) => FavoritesScreen(cartItems: [], onAddToCart: (CartItem ) {  },
 
           ),
+
         );
+      case setLocation:
+        return MaterialPageRoute(builder: (_) => const SetLocationScreen());
+      case checkout:
+        return MaterialPageRoute(builder: (_) => const CheckoutScreen());
+      case addCard:
+        return MaterialPageRoute(builder: (_) =>  AddCardScreen());
+      case orderSuccess:
+        return MaterialPageRoute(builder: (_) => const OrderSuccessScreen());
+      case testNavigation:
+        return MaterialPageRoute(builder: (_) => const TestNavigationScreen());
 
       default:
         return null;
