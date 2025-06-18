@@ -1,6 +1,7 @@
 // favorites_screen.dart
 import 'package:flutter/material.dart';
 import 'package:foodtek_app/data/models/favorite_item.dart' as models;
+import '../../../core/widgets/bottom_navigation_bar.dart';
 import '../../../data/models/cart_item.dart';
 import '../../widgets/favorite_item_tile.dart';
 import '../../widgets/food_order_widget.dart';
@@ -96,6 +97,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     final screenWidth = MediaQuery.of(context).size.width;
     final crossAxisCount = screenWidth > 600 ? 3 : 2;
 
@@ -157,6 +159,17 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        context: context,
+        isDark: isDark,
+        cartItems: widget.cartItems,
+        onAddToCart: (item) {
+          // Handle adding to cart from the navigation bar if needed
+          widget.onAddToCart(item);
+
+        },
+          activeIndex: 1
       ),
 
     );

@@ -5,20 +5,21 @@ class UserModel {
   final String name;
   final String email;
   final String password;
-  final String birthDate;
+  final String ?birthDate;
   final String phone;
   final String? profileImage;
   final String? token; // Optional token for session handling
-
+  final String? address;
   UserModel({
     String? id,
     required this.name,
     required this.email,
     required this.password,
-    required this.birthDate,
+     this.birthDate,
     required this.phone,
     this.profileImage,
     this.token,
+    this.address
   }) : id = id ?? DateTime.now().millisecondsSinceEpoch.toString(); // ✅ Generates a unique ID if not provided
 
   ///  Convert the user object to JSON format
@@ -32,6 +33,7 @@ class UserModel {
       'phone': phone,
       'profileImage': profileImage,
       'token': token,
+      'address':address
     };
   }
 
@@ -46,6 +48,7 @@ class UserModel {
       phone: json['phone'] as String? ?? '',
       profileImage: json['profileImage'] as String?,
       token: json['token'] as String?,
+      address: json['address'] as String?,
     );
   }
 

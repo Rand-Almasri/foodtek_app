@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodtek_app/view/screens/checkout_screens/add_card_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../../../core/app_theme/theme_provider.dart';
+import '../../../core/widgets/bottom_navigation_track.dart';
+import '../../../data/models/cart_item.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -8,15 +14,33 @@ class CheckoutScreen extends StatefulWidget {
 }
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
+  final List<CartItem> _cartItems = [];
+  void _addToCart(CartItem item) {
+    setState(() {
+      final existingIndex = _cartItems.indexWhere(
+              (cartItem) => cartItem.name == item.name && cartItem.restaurant == item.restaurant);
+
+      if (existingIndex >= 0) {
+        _cartItems[existingIndex].quantity += 1;
+      } else {
+        _cartItems.add(item);
+      }
+    });
+  }
   String selectedPayment = "Card"; // Default to Card based on design
   String selectedCardType = "MasterCard"; // Default to MasterCard based on design
 
   void _placeOrder() {
-    Navigator.pushNamed(context, '/order-success');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) =>  AddCardScreen()),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Checkout"),
@@ -287,6 +311,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ],
         ),
       ),
+        bottomNavigationBar: BottomNavigationTrack(
+          context: context,
+          isDark: themeProvider.isDarkMode,
+          cartItems: _cartItems,
+          onAddToCart: _addToCart,
+        activeIndex: 2,)
 
     );
   }

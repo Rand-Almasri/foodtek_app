@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../data/models/cart_item.dart';
+
 class TopRatedWidget extends StatelessWidget {
   final Function(Map<String, dynamic>) onFavoriteAdd;
 
-  const TopRatedWidget({Key? key, required this.onFavoriteAdd}) : super(key: key);
+  final Function(CartItem) onAddToCart;
+  const TopRatedWidget({Key? key, required this.onFavoriteAdd,required this.onAddToCart,}) : super(key: key);
 
   Widget _buildTopRatedItem(
       BuildContext context,

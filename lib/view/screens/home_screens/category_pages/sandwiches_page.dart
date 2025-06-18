@@ -8,8 +8,8 @@ import '../../../widgets/food_order_widget.dart';
 import '../favorites_screen.dart';
 import '../history_screen.dart';
 import '../home_screen.dart';
-import '../main_screen.dart';
-import '../profile_screen.dart';
+
+import '../profile/profile_screen.dart';
 
 class SandwichesPage extends StatefulWidget {
   const SandwichesPage({super.key});
@@ -83,7 +83,7 @@ class _SandwichesPageState extends State<SandwichesPage> {
       case 0:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MainScreen()),
+          MaterialPageRoute(builder: (context) => HomeScreen()),
         );
         break;
       case 1:
@@ -97,7 +97,7 @@ class _SandwichesPageState extends State<SandwichesPage> {
       case 3:
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => HistoryScreen()),
+          MaterialPageRoute(builder: (context) => HistoryScreen(onAddToCart: (CartItem ) {  }, cartItems: [],)),
         );
         break;
       case 4:

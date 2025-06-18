@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/constant_colors.dart';
+import '../../../core/widgets/bottom_navigation_bar.dart';
+import '../../../data/models/cart_item.dart' show CartItem;
 import '../../../data/models/order_history_model.dart';
 import '../../widgets/history_item_widget.dart';
 import '../../widgets/empty_history_widget.dart';
 import '../../widgets/header_widget.dart';
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  final List<CartItem> cartItems;
+  final Function(CartItem) onAddToCart;
+
+  const HistoryScreen({
+    Key? key,
+    required this.cartItems,
+    required this.onAddToCart,
+  }) : super(key: key);
+
+
 
   @override
   State<HistoryScreen> createState() => _HistoryScreenState();
@@ -50,6 +61,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -145,6 +157,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
           ],
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        context: context,
+        isDark: isDark,
+        cartItems: widget.cartItems,
+        onAddToCart: widget.onAddToCart,
+          activeIndex: 3
+      ),
+
     );
   }
 }

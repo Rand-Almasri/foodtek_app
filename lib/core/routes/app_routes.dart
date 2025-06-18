@@ -8,7 +8,9 @@ import 'package:foodtek_app/view/screens/auth_screens/verification_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/cart_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/favorites_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/home_screen.dart';
-import 'package:foodtek_app/view/screens/home_screens/main_screen.dart';
+
+import 'package:foodtek_app/view/screens/home_screens/profile/profile_screen.dart';
+import 'package:foodtek_app/view/screens/home_screens/tracking/location_tracking.dart';
 import 'package:foodtek_app/view/screens/onboarding/on_boarding_screen1.dart';
 import 'package:foodtek_app/view/screens/onboarding/on_boarding_screen2.dart';
 import 'package:foodtek_app/view/screens/onboarding/on_boarding_screen3.dart';
@@ -36,7 +38,7 @@ class AppRoutes {
   static const String homescreen = '/homescreen';
   static const String favoritesscreen = '/favoritesscreen';
   static const String cartscreen = '/cartscreen';
-
+  static const String profilescreen = '/profilescreen';
 
   // 👉 Section 5 routes
   static const String setLocation = '/setLocation';
@@ -44,7 +46,7 @@ class AppRoutes {
   static const String addCard = '/addCard';
   static const String orderSuccess = '/orderSuccess';
   static const String testNavigation = '/testNavigation';
-
+  static const String locationtracking = '/locationtracking';
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case splash:
@@ -57,10 +59,13 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => const OnboardingScreen3());
       case onboarding4:
         return MaterialPageRoute(builder: (_) => const OnBoardingScreen4());
-
+      case profilescreen:
+        return MaterialPageRoute(builder: (_) => const ProfileScreen());
+      case locationtracking:
+        return MaterialPageRoute(builder: (_) => const LocationTracking());
       case mainscreen:
       case homescreen:
-        return MaterialPageRoute(builder: (_) => MainScreen());
+        return MaterialPageRoute(builder: (_) => HomeScreen());
       case login:
         return MaterialPageRoute(
           builder: (_) => LoginScreen(
@@ -76,7 +81,7 @@ class AppRoutes {
       case signup:
         return MaterialPageRoute(builder: (_) => const SignupScreen());
       case cartscreen:
-        return MaterialPageRoute(builder: (_) => CartScreen(cartItems: []));
+        return MaterialPageRoute(builder: (_) => CartScreen(cartItems: [], onAddToCart: (CartItem ) {  },));
       case verification:
         return MaterialPageRoute(builder: (_) => const VerificationScreen());
       case favoritesscreen:

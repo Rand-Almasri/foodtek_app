@@ -12,4 +12,5 @@ class CartItem {
     required this.image,
     this.quantity = 1,
   });
+
 }

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:foodtek_app/core/widgets/bottom_navigation_bar.dart';
+import 'package:foodtek_app/view/screens/checkout_screens/checkout_screen.dart';
 import 'package:foodtek_app/view/screens/home_screens/history_screen.dart';
-
 import '../../../core/constants/constant_colors.dart';
 import '../../../data/models/cart_item.dart';
 import '../../../data/models/favorite_item.dart';
 import '../../widgets/header_widget.dart';
+import '../checkout_screens/add_card_screen.dart';
+import '../checkout_screens/order_success_screen.dart';
 
 class CartScreen extends StatefulWidget {
   final List<CartItem> cartItems;
+  final Function(CartItem) onAddToCart;
 
-  CartScreen({super.key, required this.cartItems});
+  const CartScreen({
+    super.key,
+    required this.cartItems,
+    required this.onAddToCart,
+  });
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -17,43 +25,57 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   List<CartItem> cartItems = [];
+  bool _isHistorySelected = false;
+
+  void navigateToHistoryScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => HistoryScreen(
+          cartItems: cartItems, // Pass your current cart items
+          onAddToCart: (item) {
+            setState(() {
+              final existingIndex = cartItems.indexWhere((i) => i.name == item.name);
+              if (existingIndex >= 0) {
+                cartItems[existingIndex].quantity++;
+              } else {
+                cartItems.add(item);
+              }
+            });
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    cartItems = List.from(widget.cartItems); // Copy the initial items
+    cartItems = List.from(widget.cartItems);
   }
 
   void addToCart(FavoriteItem favoriteItem, int quantity) {
+    final newCartItem = CartItem(
+      name: favoriteItem.name,
+      image: favoriteItem.imagePath,
+      restaurant: favoriteItem.restaurant,
+      price: favoriteItem.price,
+      quantity: quantity,
+    );
+
+    widget.onAddToCart(newCartItem);
     setState(() {
-      // Check if already exists
-      final existingIndex =
-      cartItems.indexWhere((item) => item.name == favoriteItem.name);
+      final existingIndex = cartItems.indexWhere((item) => item.name == favoriteItem.name);
       if (existingIndex != -1) {
         cartItems[existingIndex].quantity += quantity;
       } else {
-        cartItems.add(
-          CartItem(
-            name: favoriteItem.name,
-            image: favoriteItem.imagePath,
-            restaurant: favoriteItem.restaurant,
-            price: favoriteItem.price,
-            quantity: quantity,
-          ),
-        );
+        cartItems.add(newCartItem);
       }
     });
   }
-  bool _isHistorySelected = false;
-  void navigateTohistoryScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) =>  HistoryScreen(),
-      ),
-    );
-  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -71,7 +93,7 @@ class _CartScreenState extends State<CartScreen> {
                           horizontal: 16.0, vertical: 8.0),
                       child: Column(
                         children: [
-                          HeaderWidget(),
+                          const HeaderWidget(),
                           const SizedBox(height: 10),
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -82,9 +104,8 @@ class _CartScreenState extends State<CartScreen> {
                                   child: InkWell(
                                     onTap: () {
                                       setState(() {
-                                        _isHistorySelected = true;
+                                        _isHistorySelected = false;
                                       });
-                                      navigateTohistoryScreen();
                                     },
                                     child: Column(
                                       children: [
@@ -111,7 +132,6 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                   ),
                                 ),
-
                                 // History Tab - 50%
                                 Expanded(
                                   child: InkWell(
@@ -119,6 +139,7 @@ class _CartScreenState extends State<CartScreen> {
                                       setState(() {
                                         _isHistorySelected = true;
                                       });
+                                      navigateToHistoryScreen();
                                     },
                                     child: Column(
                                       children: [
@@ -161,19 +182,15 @@ class _CartScreenState extends State<CartScreen> {
                           background: Container(
                             color: Colors.yellow.shade700,
                             alignment: Alignment.centerRight,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0),
-                            child: const Icon(Icons.delete,
-                                color: Colors.white),
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: const Icon(Icons.delete, color: Colors.white),
                           ),
                           onDismissed: (direction) {
                             setState(() {
                               cartItems.removeAt(index);
                             });
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      '${cartItems[index].name} removed')),
+                              SnackBar(content: Text('${cartItems[index].name} removed')),
                             );
                           },
                           child: _buildCartItem(cartItems[index], index),
@@ -188,8 +205,24 @@ class _CartScreenState extends State<CartScreen> {
             _buildOrderSummary(),
           ],
         ),
+        
       ),
-    );
+      bottomNavigationBar: CustomBottomNavigationBar(
+        context: context,
+        isDark: isDark,
+        cartItems: cartItems,
+        onAddToCart: (item) {
+          setState(() {
+            final existingIndex = cartItems.indexWhere((i) => i.name == item.name);
+            if (existingIndex >= 0) {
+              cartItems[existingIndex].quantity++;
+            } else {
+              cartItems.add(item);
+            }
+          },
+          );
+        },activeIndex: 2
+      ),    );
   }
 
   Widget _buildCartItem(CartItem item, int index) {
@@ -224,8 +257,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 Text(
                   item.name,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                 ),
                 Text(
                   item.restaurant,
@@ -235,9 +267,10 @@ class _CartScreenState extends State<CartScreen> {
                 Text(
                   '\$${item.price.toStringAsFixed(2)}',
                   style: const TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
+                    color: Colors.green,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ],
             ),
@@ -343,17 +376,23 @@ class _CartScreenState extends State<CartScreen> {
             summaryRow('Total', '\$${total.toStringAsFixed(2)}', isBold: true),
             const SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  CheckoutScreen()),
+                );
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
-                padding:
-                const EdgeInsets.symmetric(horizontal: 120, vertical: 12),
+                padding: const EdgeInsets.symmetric(horizontal: 120, vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text('Place My Order',
-                  style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+              child: const Text(
+                'Place My Order',
+                style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),
@@ -367,14 +406,20 @@ class _CartScreenState extends State<CartScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
-          Text(value,
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
         ],
       ),
     );
@@ -385,7 +430,7 @@ class _CartScreenState extends State<CartScreen> {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: HeaderWidget(),
+          child: const HeaderWidget(),
         ),
         Expanded(
           child: Center(

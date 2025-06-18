@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/app_theme/theme_provider.dart';
 import '../../../core/constants/constant_colors.dart';
+import '../../../core/widgets/bottom_navigation_track.dart';
+import '../../../data/models/cart_item.dart';
 
 class OrderSuccessScreen extends StatefulWidget {
   const OrderSuccessScreen({super.key});
@@ -10,9 +14,24 @@ class OrderSuccessScreen extends StatefulWidget {
 }
 
 class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
+  final List<CartItem> _cartItems = [];
+  void _addToCart(CartItem item) {
+    setState(() {
+      final existingIndex = _cartItems.indexWhere(
+              (cartItem) => cartItem.name == item.name && cartItem.restaurant == item.restaurant);
+
+      if (existingIndex >= 0) {
+        _cartItems[existingIndex].quantity += 1;
+      } else {
+        _cartItems.add(item);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -74,7 +93,7 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
                         child: Text(
                           'you will get your order within 12min.\n thanks for using our services',
                           textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
+                          style: TextStyle(fontSize: 14,
                               ),
                         ),
                       ),
@@ -108,6 +127,12 @@ class _OrderSuccessScreenState extends State<OrderSuccessScreen> {
           );
         },
       ),
+        bottomNavigationBar: BottomNavigationTrack(
+          context: context,
+          isDark: themeProvider.isDarkMode,
+          cartItems: _cartItems,
+          onAddToCart: _addToCart,
+        activeIndex: 2,)
     );
   }
 }

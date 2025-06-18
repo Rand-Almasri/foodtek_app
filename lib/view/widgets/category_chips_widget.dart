@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:foodtek_app/view/screens/home_screens/home_screen.dart';
 import '../screens/home_screens/category_pages/burger_page.dart';
 import '../screens/home_screens/category_pages/drinks_page.dart';
 import '../screens/home_screens/category_pages/pizza_page.dart';
 import '../screens/home_screens/category_pages/sandwiches_page.dart';
-import '../screens/home_screens/main_screen.dart';
 
 class CategoryChipsWidget extends StatelessWidget {
   final String? selectedCategory;
@@ -25,7 +25,7 @@ class CategoryChipsWidget extends StatelessWidget {
 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) =>  MainScreen()),
+                MaterialPageRoute(builder: (context) =>  HomeScreen()),
               );
             }),
             buildCategoryChip(context, '🍔 Burger', selectedCategory == '🍔 Burger', onTap: () {
